@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <!-- Styles Here -->
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+  </head>
+
+  <body ng-app="trackrank">
+    <nav class="navbar navbar-inverse" role="navigation">
+      <div class="navbar-header">
+        <div class="navbar-brand">Home</div>
+      </div>
+      <div>
+        <div ng-controller="MainCtrl">{{ text }}</div>
+        <form action="" class="navbar-form navbar-right" role="search">
+          <div class="form-group">
+            <input id="artist" type="text" class="form-control" placeholder="Artist...">
+          </div>
+          <div class="form-group">
+            <input id="album" type="text" class="form-control" placeholder="Album...">
+          </div>
+          <button type="submit" class="btn btn-default">Search</button>
+        </form>
+      </div>
+    </nav>
+
+    <!-- Scripts Here -->
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.js"></script>
+    <script src="assets/js/trackrank.js"></script>
+  </body>
+
+</html>
