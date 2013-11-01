@@ -3,9 +3,9 @@
 class QueryControllerTest extends TestCase {
 
 
-	public function testSearchArtist()
+	public function testGetSearchArtist()
 	{
-    $this->client->request('GET', '/query/search/artist/danny+brown');
+    $this->client->request('GET', '/query/artist/danny+brown');
 
     $this->assertTrue($this->client->getResponse()->isOk());
 

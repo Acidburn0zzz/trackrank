@@ -17,7 +17,7 @@ class SearchHelper {
     $artist_ids = [];
     $results = $this->service->search($search_query)->getResults();
     foreach($results as $result) {
-     array_push($artist_ids, $result);
+     array_push($artist_ids, $result->toArray());
     }
     //var_dump($results);
     return ($artist_ids);
@@ -32,7 +32,7 @@ class SearchHelper {
     $search_query = array("type" => "master", "q" => $query);
     $album_ids = [];
     $results = $this->service->search($search_query)->getResults();
-   //var_dump($results);
+    //var_dump($results);
     foreach($results as $result) {
       array_push($album_ids, $result->getId());
     }

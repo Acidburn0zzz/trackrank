@@ -13,7 +13,7 @@ class SearchHelperTest extends TestCase {
 
     $this->assertNotEmpty($artist_id_list);
 
-    $artist_id = $artist_id_list[0]->getId();
+    $artist_id = $artist_id_list[0]["id"];
     $artist_info = $this->searchHelper->getArtistById($artist_id);
 
     $this->assertNotNull($artist_info->getName()); //Do we have a name
