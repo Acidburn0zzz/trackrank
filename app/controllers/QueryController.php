@@ -16,6 +16,10 @@ class QueryController extends BaseController {
         return View::make('queries.index');
 	}
 
+  public function getSearch($query)
+  {
+    return $this->searcher->search($query);
+  }
 	/**
 	*	Search by artist name
 	*	@return array_of_artist_ids

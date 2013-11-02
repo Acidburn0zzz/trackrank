@@ -7,6 +7,26 @@ class SearchHelperTest extends TestCase {
     $this->searchHelper = new \Helpers\SearchHelper();
   }
 
+  public function testSearchFunction() 
+  {
+    $artist_query = "artist=danny+brown";
+    $album_query = "album=the+hybrid";
+    $artist_album_query = $artist_query . "&" . $album_query;
+    $artist_query_mixed_case = "ArTiST=danNy+bROWN";
+
+    $artist_query_result = $this->searchHelper->search($artist_query);
+    $this->assertNotEmpty($artist_query_result);
+
+    $album_query_result = $this->searchHelper->search($album_query);
+    $this->assertNotEmpty($album_query_result);
+
+    $artist_album_query_result = $this->searchHelper->search($artist_album_query);
+    $this->assertNotEmpty($artist_album_query_result);
+
+    $artist_query_mixed_case_result = $this->searchHelper->search($artist_query_mixed_case);
+    $this->assertNotEmpty($artist_query_mixed_case_result);
+  }
+
   public function testSearchHelper()
   {
     $artist_id_list = $this->searchHelper->searchArtists('danny+brown');

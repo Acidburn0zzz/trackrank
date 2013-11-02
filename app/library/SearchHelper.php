@@ -5,12 +5,44 @@ class SearchHelper {
   protected $service;
   
   function __construct() {
-    $this->service = new \Discogs\Service();
+    $this->service = new \Discogs\Service(null, 20);
+  }
+
+  /**
+   * Search by artist, album or artist + album
+   * @return json_array_of_results
+   */
+  public function search($query)
+  {
+    parse_str(strtolower($query), $query_str);
+    $keys = array_keys($query_str);
+    $search_query = [];
+    $output_arr = [];
+
+    if(in_array("artist", $keys) && in_array("album", $keys)) {
+      $search_query["type"] = "master";
+      $search_query["artist"] = $query_str["artist"];
+      $search_query["title"] = $query_str["album"];
+    }
+    else if(in_array("artist", $keys)) {
+      $search_query["type"] = "artist";
+      $search_query["title"] = $query_str["artist"];
+    }
+    else if(in_array("album", $keys)) {
+      $search_query["type"] = "master";
+      $search_query["title"] = $query_str["album"];
+    }
+
+    $results = $this->service->search($search_query)->getResults();
+    foreach($results as $result) {
+     array_push($output_arr, $result->toArray());
+    }
+    return $output_arr;
   }
 
   /**
   * Search by artist name
-  * @return array_of Discogs\Model\Result
+  * @return array_of artist json objects
   **/
   public function searchArtists($query) {
     $search_query = array("type" => "artist", "q" => $query);

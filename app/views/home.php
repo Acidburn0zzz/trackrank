@@ -16,9 +16,23 @@
     <div class="large-12">
       <h1>Trackrank</h1>
       <div class="row">
-        <div class="large-6 large-offset-3" ng-controller="QueryController">
-          {{ output }}<br />
-          Search here
+        <div class="large-8 large-offset-2" ng-controller="QueryController">
+          <form novalidate>
+            <div class="row">
+              <div class="large-5 columns">
+                <input type="text" placeholder="Artist..." ng-model="query.artist">
+              </div>
+              <div class="large-5 columns">
+                <input type="text" placeholder="Album..." ng-model="query.album">
+              </div>
+              <div class="large-2 columns">
+                <button class="button postfix" ng-click="search(query)">Search</button>
+              </div>
+            </div>
+          </form>
+          <div class="panel" ng-repeat="data in output.data">
+            <a href="/{{ output.type }}/{{ data.id }}">{{ data.title }}</a>
+          </div>
         </div>
       </div>
       <div id="view" ng-view></div>

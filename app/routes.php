@@ -16,6 +16,7 @@ Route::get('/', array('as' => 'home', function()
   return View::make('home');
 }));
 
+Route::get('/query/{query_string}', 'QueryController@getSearch');
 Route::get('query/artist/{query_string}', 'QueryController@getSearchArtist');
 Route::get('query/album/{query_string}', 'QueryController@getSearchAlbum');
 //Route::controller('query', 'QueryController');
