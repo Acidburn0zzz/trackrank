@@ -2,12 +2,18 @@
 namespace Helpers;
 
 use MusicBrainz\MusicBrainz;
+use MusicBrainz\Filters\RecordingFilter;
+use MusicBrainz\Filters\ArtistFilter;
+use Guzzle\Http\Client;
 
 class SearchHelper {
   protected $service;
+  protected $brainz;
 
   function __construct() {
     $this->service = new \Discogs\Service(null, 20);
+    $this->brainz = new MusicBrainz(new Client(), 'username', 'password');
+    $this->brainz->setUserAgent('TestAppName', '0.1', 'http://test.com');
   }
 
   /**
@@ -20,6 +26,18 @@ class SearchHelper {
     $keys = array_keys($query_str);
     $search_query = [];
     $output_arr = [];
+
+    $args = array(
+      "artist" => "Danny Brown"
+    );
+
+    try {
+      $artists = $this->brainz->search(new ArtistFilter($args));
+    } catch (Exception $e) {
+      print $e->getMessage();
+    }
+
+    var_dump($artists);
 
     if(in_array("artist", $keys) && in_array("album", $keys)) {
       $search_query["type"] = "master";
