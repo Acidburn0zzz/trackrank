@@ -7,7 +7,7 @@ class SearchHelperTest extends TestCase {
     $this->searchHelper = new \Helpers\SearchHelper();
   }
 
-  public function testSearchFunction() 
+  public function testSearchFunction()
   {
     $artist_query = "artist=danny+brown";
     $album_query = "album=the+hybrid";
@@ -27,22 +27,15 @@ class SearchHelperTest extends TestCase {
     $this->assertNotEmpty($artist_query_mixed_case_result);
   }
 
-  public function testSearchHelper()
+  public function testGetArtistById()
   {
-    $artist_id_list = $this->searchHelper->searchArtists('danny+brown');
+    $artist_query = "artist=danny+brown";
+    $artist_query_result = $this->searchHelper->search($artist_query);
+    $artist_id = $artist_query_result[0]["id"];
+    $get_artist_id = $this->searchHelper->getArtistById($artist_id);
 
-    $this->assertNotEmpty($artist_id_list);
-
-    $artist_id = $artist_id_list[0]["id"];
-    $artist_info = $this->searchHelper->getArtistById($artist_id);
-
-    $this->assertNotNull($artist_info->getName()); //Do we have a name
-    $this->assertEquals($artist_id, $artist_info->getId()); //Did we get the right artist
-
-    // $jsonResponse = $this->client->getResponse()->getContent();
-    // $responseData = json_decode($jsonResponse);
-
-    // $this->assertTrue(count($responseData) > 0);
+    $this->assertNotEmpty($get_artist_id);
+    $this->assertEquals($artist_id, $get_artist_id["id"]);
   }
 
 }

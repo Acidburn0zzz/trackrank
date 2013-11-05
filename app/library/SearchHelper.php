@@ -1,9 +1,11 @@
-<?php 
+<?php
 namespace Helpers;
+
+use MusicBrainz\MusicBrainz;
 
 class SearchHelper {
   protected $service;
-  
+
   function __construct() {
     $this->service = new \Discogs\Service(null, 20);
   }
@@ -78,7 +80,10 @@ class SearchHelper {
    */
   public function getArtistById($id)
   {
-    return $this->service->getArtist($id);
+    $artist_arr = $this->service->getArtist($id)->toArray();
+    $releases_arr = $this->service->getReleases($artist_arr["id"]);
+    var_dump($releases_arr);
+    return $artist_arr;
   }
 }
 
