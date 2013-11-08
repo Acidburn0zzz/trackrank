@@ -16,20 +16,23 @@
       </div>
     </div>
   </form>
-  <div class="panel" ng-repeat="data in output.data">
-    <div class="row">
-      <div class="large-2 columns text-center"><img src="@{{ data.image }}" /></div>
-      <div class="large-10 columns"><a href="/@{{ output.type }}/@{{ data.mbid }}">
-        <span ng-if="output.type == 'artist'">
-          @{{ data.artist }}
-        </span>
-        <span ng-if="output.type == 'release'">
-          @{{ data.artist }} - @{{ data.name }}<br />
-          @{{ data.releasedate }}<br />
-        </span>
-      </a></div>
+    <div ng-show="isEmpty(output)" ng-cloak>Search something...</div>
+    <div class="panel" ng-repeat="data in output.data" ng-cloak>
+      <div class="row">
+        <div class="large-2 columns text-center"><img ng-show="data.image" src="@{{ data.image }}" /></div>
+        <div class="large-10 columns">
+          <a href="/@{{ output.type }}/@{{ data.mbid }}">
+          <span ng-if="output.type == 'artist'">
+            @{{ data.artist }}
+          </span>
+          <span ng-if="output.type == 'release'">
+            @{{ data.artist }} - @{{ data.name }}<br />
+            @{{ data.releasedate }}<br />
+          </span>
+          </a>
+        </div>
+      </div>
     </div>
-  </div>
 </div>
 
 @stop

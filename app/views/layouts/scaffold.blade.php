@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <title>RankTracks</title>
   <link rel="stylesheet" href="/css/normalize.css">
-  <link rel="stylesheet" href="/css/foundation.min.css">
+  <link rel="stylesheet" href="/assets/stylesheets/app.css">
   <link rel="stylesheet" href="/css/style.css">
-  <script src="/js/angular.js"></script>
-  <script src="/js/angular-resource.min.js"></script>
-  <script src="/js/app.js"></script>
-  <script src="/js/controllers/controllers.js"></script>
-  <script src="/js/services/services.js"></script>
+  <script src="/assets/javascripts/vendor/custom.modernizr.js"></script>
+  <script src="/js/app/angular.js"></script>
+  <script src="/js/app/app.js"></script>
+  <script src="/js/app/controllers/controllers.js"></script>
+  <script src="/js/app/services/services.js"></script>
 </head>
 <body>
 
@@ -23,6 +23,14 @@
       <div id="view" ng-view></div>
     </div>
   </div>
-
+  <script>
+    document.write('<script src=/assets/javascripts/vendor/'
+      + ('__proto__' in {} ? 'zepto' : 'jquery')
+      + '.js><\/script>');
+  </script>
+  <script src="//cdn.jsdelivr.net/foundation/4.3.2/js/foundation.min.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
 </body>
 </html>

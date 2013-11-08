@@ -35,6 +35,23 @@ class SearchHelper {
   }
 
   /**
+   * Builds a JSON response checking each property inside the object for existence before it is added
+   * @return
+   */
+  public static function buildJSONResponse($obj, $params) {
+    $output_arr = [];
+    foreach($params as $param) {
+      //$output_arr[$param] = property_exists($obj, $param) ? $obj->$param : "";
+      if(property_exists($obj, $param)) {
+        $output_arr[$param] = $obj->$param;
+      } else {
+        $output_arr[$param] = "";
+      }
+    }
+    return $output_arr;
+  }
+
+  /**
    * Search by artist, album or artist + album
    * @return json_object_of_results
    */
@@ -101,19 +118,26 @@ class SearchHelper {
         "mbid" => $mbid,
         "autocorrect" => 1
       );
-      $output_arr = []
       $artist = $this->lastfm->artist_getInfo($args);
       $releases = $this->lastfm->artist_getTopAlbums($args);
-      var_dump($artist);
-      $output_arr[] = array(
+      $releases_arr = [];
+      foreach($releases->topalbums->album as $album) {
+        $releases_arr[] = array(
+          "mbid" => $album->mbid,
+          "name" => $album->name,
+          "image" => $album->image[3]->{"#text"}
+        );
+      }
+      $output_arr = array(
         "artist" => $artist->artist->name,
         "summary" => $artist->artist->bio->summary,
         "year" => $artist->artist->bio->yearformed,
         "place" => $artist->artist->bio->placeformed,
         "mbid" => $artist->artist->mbid,
-        "image" => $artist->artist->image[3]->{"#text"}
+        "image" => $artist->artist->image[3]->{"#text"},
+        "releases" => $releases_arr
       );
-      return $artist;
+      return $output_arr;
     }
     return null;
     // $artist_arr = $this->service->getArtist($id)->toArray();

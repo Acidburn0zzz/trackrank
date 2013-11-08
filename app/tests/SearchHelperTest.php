@@ -27,15 +27,35 @@ class SearchHelperTest extends TestCase {
     $this->assertNotEmpty($artist_query_mixed_case_result);
   }
 
+  public function testBuildJSONResponse()
+  {
+    $input = (object) array(
+      "name" => "Old",
+      "artist" => "Danny Brown",
+      "image" => "image.jpg",
+      "place" => "Detroit"
+    );
+    $params = array(
+      "name",
+      "artist",
+      "image",
+      "mbid"
+    );
+    $JSON = $this->searchHelper->buildJSONResponse($input, $params);
+    $this->assertNotEmpty($JSON);
+    $this->assertEquals($JSON["name"], "Old");
+    $this->assertEmpty($JSON["mbid"]);
+  }
+
   public function testGetArtistById()
   {
-    $artist_query = "artist=danny+brown";
+    $artist_query = "artist=melvins";
     $artist_query_result = $this->searchHelper->search($artist_query);
-    $artist_id = $artist_query_result[0]["id"];
+    $artist_id = $artist_query_result[0]["mbid"];
     $get_artist_id = $this->searchHelper->getArtistById($artist_id);
 
     $this->assertNotEmpty($get_artist_id);
-    $this->assertEquals($artist_id, $get_artist_id["id"]);
+    $this->assertEquals($artist_id, $get_artist_id["mbid"]);
   }
 
 }

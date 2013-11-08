@@ -17,8 +17,6 @@ Route::get('/', array('as' => 'home', function()
 }));
 
 Route::get('/query/{query_string}', 'QueryController@getSearch');
-Route::get('/query/artist/{query_string}', 'QueryController@getSearchArtist');
-Route::get('/query/album/{query_string}', 'QueryController@getSearchAlbum');
 
 Route::get('/artist/{artist_id}', "ArtistController@show")->where('id', '\d+');
 //Route::controller('query', 'QueryController');
