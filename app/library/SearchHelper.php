@@ -7,6 +7,15 @@ use MusicBrainz\Filters\ArtistFilter;
 use MusicBrainz\Filters\ReleaseFilter;
 use Guzzle\Http\Client;
 
+/**
+ * Checks whether an object property exists, if not return empty string
+ * @param Reference to object property
+ * @return object_property if exists, empty string otherwise
+ */
+function issetOrNull(&$obj) {
+  return isset($obj) ? $obj : "";
+}
+
 class SearchHelper {
   protected $service;
   protected $brainz;
@@ -19,6 +28,7 @@ class SearchHelper {
 
   /**
    * Prettifys a lastfm api date
+   * @param lastfm date
    * @return prettified date
    */
   public static function prettyDate($date) {
@@ -36,18 +46,23 @@ class SearchHelper {
 
   /**
    * Builds a JSON response checking each property inside the object for existence before it is added
-   * @return
+   * @param object to test
+   * @param array of {property_path_in_obj, name_for_output_array}
+   * @return array of valid JSON
    */
   public static function buildJSONResponse($obj, $params) {
     $output_arr = [];
+    var_dump($obj);
     foreach($params as $param) {
+      $output_arr[$param[1]] = isset($obj->$param[0]) ? $obj->{$param[0]} : "";
       //$output_arr[$param] = property_exists($obj, $param) ? $obj->$param : "";
-      if(property_exists($obj, $param)) {
-        $output_arr[$param] = $obj->$param;
-      } else {
-        $output_arr[$param] = "";
-      }
+      // if(property_exists($obj, $param)) {
+      //   $output_arr[$param] = $obj->$param;
+      // } else {
+      //   $output_arr[$param] = "";
+      // }
     }
+    var_dump ($output_arr);
     return $output_arr;
   }
 
@@ -69,13 +84,21 @@ class SearchHelper {
       $result = $this->lastfm->album_getInfo($args);
       foreach($result as $album) {
         $output_arr[] = array(
-          "name" => $album->name,
-          "artist" => $album->artist,
-          "mbid" => $album->mbid,
-          "releasedate" => SearchHelper::prettyDate($album->releasedate),
-          "image" => $album->image[1]->{"#text"},
-          "genre" => $album->toptags->tag[0]->name
+          "name" => isset($album->name) ? $album->name : "",
+          "artist" => isset($album->artist) ? $album->artist : "",
+          "mbid" => isset($album->mbid) ? $album->mbid : "",
+          "releasedate" => isset($album->releasedate) ? SearchHelper::prettyDate($album->releasedate) : "",
+          "image" => isset($album->image[1]->{"#text"}) ? $album->image[1]->{"#text"} : "",
+          "genre" => isset($album->toptags->tag[0]->name) ? $album->toptags->tag[0]->name : ""
         );
+        // $output_arr[] = array(
+        //   "name" => $album->name,
+        //   "artist" => $album->artist,
+        //   "mbid" => $album->mbid,
+        //   "releasedate" => SearchHelper::prettyDate($album->releasedate),
+        //   "image" => $album->image[1]->{"#text"},
+        //   "genre" => $album->toptags->tag[0]->name
+        // );
       }
     }
     else if(in_array("artist", $keys)) {
@@ -83,10 +106,19 @@ class SearchHelper {
       foreach($result->results->artistmatches->artist as $artist) {
         if($artist->mbid != null) {
           $output_arr[] = array(
-            "artist" => $artist->name,
-            "mbid" => $artist->mbid,
-            "image" => $artist->image[1]->{"#text"}
+            "a" => issetOrNull($artist->naasdasde),
+            "artist" => isset($artist->name) ? $artist->name : "",
+            "mbid" => isset($artist->mbid) ? $artist->mbid : "",
+            "image" => isset($artist->image[1]->{"#text"}) ? $artist->image[1]->{"#text"} : ""
           );
+          // $output_arr["artist"] = isset($artist->name) ? $artist->name : "";
+          // $output_arr["mdib"] = isset($artist->mbid) ? $artist->mbid : "";
+          // $output_arr["image"] = isset($artist->image[1]->{"#text"}) ? $artist->image[1]->{"#text"} : "";
+          // $output_arr[] = array(
+          //   "artist" => $artist->name,
+          //   "mbid" => $artist->mbid,
+          //   "image" => $artist->image[1]->{"#text"}
+          // );
         }
       }
     }
