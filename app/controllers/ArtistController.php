@@ -43,9 +43,10 @@ class ArtistController extends BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show($id, $page = 1)
 	{
-    $artist_info = $this->searcher->getArtistById($id);
+    var_dump($page);
+    $artist_info = $this->searcher->getArtistById($id, $page);
     return View::make('artist', array('artist' => $artist_info));
 	}
 

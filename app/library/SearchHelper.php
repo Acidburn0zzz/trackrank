@@ -9,11 +9,12 @@ use Guzzle\Http\Client;
 
 /**
  * Checks whether an object property exists, if not return empty string
- * @param Reference to object property
+ * @param $obj Reference to object property
+ * @param $nullValue (OPTIONAL) what the value will be set to if property not found, default null
  * @return object_property if exists, empty string otherwise
  */
-function issetOrNull(&$obj) {
-  return isset($obj) ? $obj : "";
+function issetOrNull(&$obj, $nullValue = null) {
+  return isset($obj) ? $obj : $nullValue;
 }
 
 class SearchHelper {
@@ -28,7 +29,7 @@ class SearchHelper {
 
   /**
    * Prettifys a lastfm api date
-   * @param lastfm date
+   * @param $date lastfm date
    * @return prettified date
    */
   public static function prettyDate($date) {
@@ -37,33 +38,12 @@ class SearchHelper {
 
   /**
    * Checks to see if a given musicbrainz id is valid
+   * @param $mbid MusicBrainz id of artist
    * @return true if input is a valid MBID
    */
   public static function isValidMBID($mbid)
   {
     return preg_match("/^(\{)?[a-f\d]{8}(-[a-f\d]{4}){4}[a-f\d]{8}(?(1)\})$/i", $mbid);
-  }
-
-  /**
-   * Builds a JSON response checking each property inside the object for existence before it is added
-   * @param object to test
-   * @param array of {property_path_in_obj, name_for_output_array}
-   * @return array of valid JSON
-   */
-  public static function buildJSONResponse($obj, $params) {
-    $output_arr = [];
-    var_dump($obj);
-    foreach($params as $param) {
-      $output_arr[$param[1]] = isset($obj->$param[0]) ? $obj->{$param[0]} : "";
-      //$output_arr[$param] = property_exists($obj, $param) ? $obj->$param : "";
-      // if(property_exists($obj, $param)) {
-      //   $output_arr[$param] = $obj->$param;
-      // } else {
-      //   $output_arr[$param] = "";
-      // }
-    }
-    var_dump ($output_arr);
-    return $output_arr;
   }
 
   /**
@@ -84,21 +64,13 @@ class SearchHelper {
       $result = $this->lastfm->album_getInfo($args);
       foreach($result as $album) {
         $output_arr[] = array(
-          "name" => isset($album->name) ? $album->name : "",
-          "artist" => isset($album->artist) ? $album->artist : "",
-          "mbid" => isset($album->mbid) ? $album->mbid : "",
-          "releasedate" => isset($album->releasedate) ? SearchHelper::prettyDate($album->releasedate) : "",
-          "image" => isset($album->image[1]->{"#text"}) ? $album->image[1]->{"#text"} : "",
-          "genre" => isset($album->toptags->tag[0]->name) ? $album->toptags->tag[0]->name : ""
+          "name" =>         issetOrNull($album->name),
+          "artist" =>       issetOrNull($album->artist),
+          "mbid" =>         issetOrNull($album->mbid),
+          "releasedate" =>  SearchHelper::prettyDate(issetOrNull($album->releasedate)),
+          "image" =>        issetOrNull($album->image[1]->{"#text"}),
+          "genre" =>        issetOrNull($album->toptags->tag[0]->name)
         );
-        // $output_arr[] = array(
-        //   "name" => $album->name,
-        //   "artist" => $album->artist,
-        //   "mbid" => $album->mbid,
-        //   "releasedate" => SearchHelper::prettyDate($album->releasedate),
-        //   "image" => $album->image[1]->{"#text"},
-        //   "genre" => $album->toptags->tag[0]->name
-        // );
       }
     }
     else if(in_array("artist", $keys)) {
@@ -106,19 +78,10 @@ class SearchHelper {
       foreach($result->results->artistmatches->artist as $artist) {
         if($artist->mbid != null) {
           $output_arr[] = array(
-            "a" => issetOrNull($artist->naasdasde),
-            "artist" => isset($artist->name) ? $artist->name : "",
-            "mbid" => isset($artist->mbid) ? $artist->mbid : "",
-            "image" => isset($artist->image[1]->{"#text"}) ? $artist->image[1]->{"#text"} : ""
+            "artist" => issetOrNull($artist->name),
+            "mbid" =>   issetOrNull($artist->mbid),
+            "image" =>  issetOrNull($artist->image[1]->{"#text"})
           );
-          // $output_arr["artist"] = isset($artist->name) ? $artist->name : "";
-          // $output_arr["mdib"] = isset($artist->mbid) ? $artist->mbid : "";
-          // $output_arr["image"] = isset($artist->image[1]->{"#text"}) ? $artist->image[1]->{"#text"} : "";
-          // $output_arr[] = array(
-          //   "artist" => $artist->name,
-          //   "mbid" => $artist->mbid,
-          //   "image" => $artist->image[1]->{"#text"}
-          // );
         }
       }
     }
@@ -127,10 +90,10 @@ class SearchHelper {
       foreach($result->results->albummatches->album as $album) {
         if($album->mbid != null) {
           $output_arr[] = array(
-            "name" => $album->name,
-            "artist" => $album->artist,
-            "mbid" => $album->mbid,
-            "image" => $album->image[1]->{"#text"}
+            "name" =>   issetOrNull($album->name),
+            "artist" => issetOrNull($album->artist),
+            "mbid" =>   issetOrNull($album->mbid),
+            "image" =>  issetOrNull($album->image[1]->{"#text"})
           );
         }
       }
@@ -141,41 +104,68 @@ class SearchHelper {
 
   /**
    * Get artist info and releases by mbid
+   * @param $mbid MusicBrainz id of artist
    * @return json_object_of_artist_info_and_releases
    */
   public function getArtistById($mbid)
   {
     if(SearchHelper::isValidMBID($mbid)) {
-      $args = array(
+      $artist_args = array(
         "mbid" => $mbid,
         "autocorrect" => 1
       );
-      $artist = $this->lastfm->artist_getInfo($args);
-      $releases = $this->lastfm->artist_getTopAlbums($args);
+      $artist = $this->lastfm->artist_getInfo($artist_args);
+      return array(
+        "artist" =>       issetOrNull($artist->artist->name),
+        "summary" =>      issetOrNull($artist->artist->bio->summary),
+        "year" =>         issetOrNull($artist->artist->bio->yearformed),
+        "place" =>        issetOrNull($artist->artist->bio->placeformed),
+        "mbid" =>         issetOrNull($artist->artist->mbid),
+        "image_small" =>  issetOrNull($artist->artist->image[1]->{"#text"}),
+        "image_medium" => issetOrNull($artist->artist->image[2]->{"#text"}),
+        "image_large" =>  issetOrNull($artist->artist->image[3]->{"#text"}),
+        "releases" =>     issetOrNull($releases_arr)
+      );
+    }
+    return null;
+  }
+
+  /**
+   * Returns an array of an artist's releases with pagination
+   * @param $mbid MusicBrainz id of artist
+   * @param $page (OPTIONAL) page number
+   * @param $limit (OPTIONAL) results per page
+   * @return array_of_artists_releases_by_page
+   */
+  public function getReleasesByArtistId($mbid, $page = 1, $limit = 6)
+  {
+    if(SearchHelper::isValidMBID($mbid)) {
+      $album_args = array(
+        "mbid" => $mbid,
+        "autocorrect" => 1,
+        "limit" => $limit,
+        "page" => $page
+      );
+      $releases = $this->lastfm->artist_getTopAlbums($album_args);
       $releases_arr = [];
+      $pagination_arr = array(
+        "page_limit" =>  $limit,
+        "page_number" => issetOrNull($releases->topalbums->{"@attr"}->page, 1),
+        "page_total" =>  issetOrNull($releases->topalbums->{"@attr"}->totalPages, 1)
+      );
       foreach($releases->topalbums->album as $album) {
         $releases_arr[] = array(
-          "mbid" => $album->mbid,
-          "name" => $album->name,
-          "image" => $album->image[3]->{"#text"}
+          "mbid" =>         issetOrNull($album->mbid),
+          "name" =>         issetOrNull($album->name),
+          "image_small" =>  issetOrNull($album->image[1]->{"#text"}),
+          "image_medium" => issetOrNull($album->image[2]->{"#text"}),
+          "image_large" =>  issetOrNull($album->image[3]->{"#text"})
         );
       }
-      $output_arr = array(
-        "artist" => $artist->artist->name,
-        "summary" => $artist->artist->bio->summary,
-        "year" => $artist->artist->bio->yearformed,
-        "place" => $artist->artist->bio->placeformed,
-        "mbid" => $artist->artist->mbid,
-        "image" => $artist->artist->image[3]->{"#text"},
-        "releases" => $releases_arr
-      );
+      $output_arr = array_merge($pagination_arr, array("releases" => $releases_arr));
       return $output_arr;
     }
     return null;
-    // $artist_arr = $this->service->getArtist($id)->toArray();
-    // $releases_arr = $this->service->getReleases($artist_arr["id"]);
-    // var_dump($releases_arr);
-    // return $artist_arr;
   }
 }
 

@@ -16,26 +16,51 @@ class QueryController extends BaseController {
         return View::make('queries.index');
 	}
 
-  public function getSearch($query)
+  /**
+   * Search by artist name, album or name + album
+   * @param search query
+   * @return JSON object of results
+   */
+  public function getSearch($query_string)
   {
-    return $this->searcher->search($query);
+    return $this->searcher->search($query_string);
   }
-	/**
-	*	Search by artist name
-	*	@return array_of_artist_ids
-	**/
-	public function getSearchArtist($query) {
-		return $this->searcher->searchArtists($query);
-	}
 
-	/**
-	 * Search by album title
-	 * @return array_of_album_ids
-	 */
-	public function getSearchAlbum($query)
-	{
-		return $this->searcher->searchAlbums($query);
-	}
+  /**
+   * Query for an artist's info and releases by a musicbrainz id
+   * @param mbid = artist MBID
+   * @param p = (OPTIONAL) page number
+   * @return JSON object of artist info and releases
+   */
+  public function getArtistById($query_string)
+  {
+    parse_str($query_string, $params);
+    $mbid = isset($params["mbid"]) ? $params["mbid"] : null;
+    $page = isset($params["p"]) ? $params["p"] : 1;
+    if(isset($mbid) && isset($page)) {
+      return $this->searcher->getArtistById($mbid, $page);
+    }
+    return Response::make("ERROR: Invalid MBID", 500);
+  }
+
+  /**
+   * Get a list of albums by artist id with pagination
+   * @param mbid = artist MBID
+   * @param p = (OPTIONAL) the page to get
+   * @param limit = (OPTIONAL) the number of results per page
+   * @return
+   */
+  public function getReleasesByArtistId($query_string)
+  {
+    parse_str($query_string, $params);
+    $mbid = isset($params["mbid"]) ? $params["mbid"] : null;
+    $page = isset($params["p"]) ? $params["p"] : 1;
+    $limit = isset($params["limit"]) ? $params["limit"] : Config::get('constants.ALBUMS_PER_PAGE_ARTIST');
+    if(isset($mbid) && isset($page)) {
+      return $this->searcher->getReleasesByArtistId($mbid, $page, $limit);
+    }
+    return Response::make("ERROR: Invalid MBID", 500);
+  }
 
 	/**
 	 * Show the form for creating a new resource.

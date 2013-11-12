@@ -29,32 +29,14 @@ class SearchHelperTest extends TestCase {
 
   public function testIssetOrNull()
   {
+    $null_checks = (object) array(
+      "artist" => "melvins",
+      "year" => "",
+    );
 
-  }
-  public function testBuildJSONResponse()
-  {
-    // $input = (object) array(
-    //   "name" => "Old",
-    //   "artist" => "Danny Brown",
-    //   "image" => "image.jpg",
-    //   "place" => "Detroit",
-    //   "release" =>
-    //     array(
-    //       "Test1",
-    //       "Test2")
-    // );
-    // $params = array(
-    //   array("name", "name"),
-    //   array("artist", "artist"),
-    //   array("image", "image"),
-    //   array("mbid", "mbid"),
-    //   array("release[0]", "release")
-    // );
-    // $JSON = $this->searchHelper->buildJSONResponse($input, $params);
-    // $this->assertNotEmpty($JSON);
-    // $this->assertEquals($JSON["name"], "Old");
-    // $this->assertEmpty($JSON["mbid"]);
-    // $this->assertEquals($JSON["release"], "Test1");
+    $this->assertNotEmpty(\Helpers\issetOrNull($null_checks->artist));
+    $this->assertEmpty(\Helpers\issetOrNull($null_checks->year));
+    $this->assertEmpty(\Helpers\issetOrNull($null_checks->invalidProperty));
   }
 
   public function testGetArtistById()
@@ -68,4 +50,31 @@ class SearchHelperTest extends TestCase {
     $this->assertEquals($artist_id, $get_artist_id["mbid"]);
   }
 
+  public function testGetReleasesByArtistId()
+  {
+    $artist_id = "9ccfbc94-a4f4-42f7-b6f5-d903ab77cccb"; //Melvins
+    $releases_by_artist_id_result = $this->searchHelper->getReleasesByArtistId($artist_id);
+
+    $this->assertNotEmpty($releases_by_artist_id_result);
+
+    //Test Pagination
+    $page = 2;
+    $limit = 6;
+    $releases_by_artist_id_pagination_result = $this->searchHelper->getReleasesByArtistId($artist_id, $page, $limit);
+
+    $this->assertNotEmpty($releases_by_artist_id_pagination_result);
+    $this->assertEquals($releases_by_artist_id_pagination_result["page_number"], $page);
+    $this->assertEquals($releases_by_artist_id_pagination_result["page_limit"], $limit);
+  }
+
+  public function testIsValidMBID()
+  {
+    $valid_mbid = "0383dadf-2a4e-4d10-a46a-e9e041da8eb3";
+    $valid_mbid2 = "0383DADF-2A4E-4d10-a46a-e9e041da8eb3";
+    $invalid_mbid = "0383dadf-2a4e-4d10-a46a-";
+
+    $this->assertEquals($this->searchHelper->isValidMBID($valid_mbid), 1); //TRUE
+    $this->assertEquals($this->searchHelper->isValidMBID($valid_mbid2), 1); //TRUE
+    $this->assertEquals($this->searchHelper->isValidMBID($invalid_mbid), 0); //FALSE
+  }
 }

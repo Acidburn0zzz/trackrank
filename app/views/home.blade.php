@@ -1,7 +1,6 @@
 @extends('layouts.scaffold')
 
 @section('content')
-
 <div class="large-8 large-offset-2" ng-controller="QueryController">
   <form novalidate>
     <div class="row">
@@ -21,7 +20,7 @@
       <div class="row">
         <div class="large-2 columns text-center"><img ng-show="data.image" src="@{{ data.image }}" /></div>
         <div class="large-10 columns">
-          <a href="/@{{ output.type }}/@{{ data.mbid }}">
+          <a href="/@{{ output.type }}/@{{ data.mbid }}" target="_self">
           <span ng-if="output.type == 'artist'">
             @{{ data.artist }}
           </span>

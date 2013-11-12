@@ -7,6 +7,21 @@
 // Comment out this import if you are customizing you imports below
 @import "foundation";
 
+$warning-color: #FF0000;
+
+.artist-summary {
+  padding-top: em-calc(10);
+  padding-bottom: em-calc(10);
+}
+
+.callout-artist-releases {
+  text-align: center;
+  padding: em-calc(20);
+}
+
+.alert-error {
+  @include alert($warning-color);
+}
 // Import specific parts of Foundation by commenting the import "foundation"
 // and uncommenting what you want below. You must uncomment the following if customizing
 
