@@ -40,17 +40,21 @@ app.controller("QueryController", function($scope, $location, artistService) {
 app.controller("AlbumPageController", function($scope, $location, artistService, paginateService) {
   $scope.page = 1;
   $scope.page_size = 6;
-  var mbid = $location.path().substring(1);
-  $scope.release_data = paginateService.getAlbumPage(mbid, 1);
+  var mbid = $location.path().split("/")[2]; //path = /artist/MBID
+  console.log($location);
+  console.log(mbid);
 
+  $scope.release_data = {};
+  paginateService.getAlbumPage(mbid, 1).then(function(result) {
+    $scope.release_data = result.data;
+  });
 
-  $scope.nextPage = function() {
-    $scope.page += 1;
-    $scope.release_data = paginateService.getAlbumPage(mbid, $scope.page);
-  };
-  $scope.previousPage = function() {
-    $scope.page -= 1;
-    $scope.release_data = paginateService.getAlbumPage(mbid, $scope.page);
+  $scope.paginate = function(change) {
+    $scope.page += change;
+    paginateService.getAlbumPage(mbid, $scope.page).then(function(result) {
+      $scope.release_data = result.data;
+    });
+    console.log("DATA: ", $scope.release_data);
   };
 
 });

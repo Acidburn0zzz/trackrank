@@ -7304,19 +7304,19 @@ a.th {
   max-width: 800px;
 }
 
-/* line 12, ../sass/app.scss */
+/* line 13, ../sass/app.scss */
 .artist-summary {
   padding-top: 0.625em;
   padding-bottom: 0.625em;
 }
 
-/* line 17, ../sass/app.scss */
+/* line 18, ../sass/app.scss */
 .callout-artist-releases {
   text-align: center;
   padding: 1.25em;
 }
 
-/* line 22, ../sass/app.scss */
+/* line 23, ../sass/app.scss */
 .alert-error {
   border-style: solid;
   border-width: 1px;
@@ -7329,4 +7329,66 @@ a.th {
   background-color: red;
   border-color: #cc0000;
   color: white;
+}
+
+/* line 27, ../sass/app.scss */
+.album-box.ng-enter {
+  -webkit-transition: 0.5s linear all;
+  -moz-transition: 0.5s linear all;
+  -o-transition: 0.5s linear all;
+  transition: 0.5s linear all;
+}
+
+/* line 34, ../sass/app.scss */
+.album-box.ng-enter,
+.album-box.ng-leave.ng-leave-active {
+  opacity: 0;
+}
+
+/* line 38, ../sass/app.scss */
+.album-box.ng-leave,
+.album-box.ng-enter.ng-enter-active {
+  opacity: 1;
+}
+
+/* line 42, ../sass/app.scss */
+.album-image {
+  width: 7.8125em;
+  height: 7.8125em;
+}
+/* line 46, ../sass/app.scss */
+.album-image img {
+  width: 100%;
+  height: auto;
+}
+
+/* line 52, ../sass/app.scss */
+.album-panel {
+  height: 21.25em;
+}
+
+/* line 57, ../sass/app.scss */
+.page-previous,
+.page-next {
+  height: 100%;
+  background: linear-gradient(to right, #0000ff, #ffffff);
+}
+/* line 60, ../sass/app.scss */
+.page-previous:hover,
+.page-next:hover {
+  color: #333;
+}
+/* line 63, ../sass/app.scss */
+.page-previous .inner, .page-previous .inner-right,
+.page-next .inner,
+.page-next .inner-right {
+  margin-top: 9.65909em;
+}
+/* line 68, ../sass/app.scss */
+.page-previous .inner-right img,
+.page-next .inner-right img {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg);
 }

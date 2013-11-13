@@ -8,6 +8,7 @@
 @import "foundation";
 
 $warning-color: #FF0000;
+$album-panel-height: em-calc(340);
 
 .artist-summary {
   padding-top: em-calc(10);
@@ -22,6 +23,59 @@ $warning-color: #FF0000;
 .alert-error {
   @include alert($warning-color);
 }
+
+.album-box.ng-enter {
+  -webkit-transition:0.5s linear all;
+  -moz-transition:0.5s linear all;
+  -o-transition:0.5s linear all;
+  transition:0.5s linear all;
+}
+.album-box.ng-enter,
+.album-box.ng-leave.ng-leave-active {
+  opacity:0;
+}
+.album-box.ng-leave,
+.album-box.ng-enter.ng-enter-active {
+  opacity:1;
+}
+
+.album-image {
+  width: em-calc(125);
+  height: em-calc(125);
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+.album-panel {
+  height: $album-panel-height;
+}
+
+.page-previous,
+.page-next {
+  height: 100%;
+  background: linear-gradient(to right, blue, white);
+  &:hover {
+    color: #333;
+  }
+  .inner {
+    margin-top: ($album-panel-height / 2.2);
+  }
+  .inner-right {
+    @extend .inner;
+    img {
+      -webkit-transform:rotate(180deg);
+      -moz-transform:rotate(180deg);
+      -o-transform:rotate(180deg);
+      transform:rotate(180deg);
+    }
+  }
+}
+
+
+
 // Import specific parts of Foundation by commenting the import "foundation"
 // and uncommenting what you want below. You must uncomment the following if customizing
 

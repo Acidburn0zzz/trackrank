@@ -7,7 +7,9 @@
   <link rel="stylesheet" href="/assets/stylesheets/app.css">
   <link rel="stylesheet" href="/css/style.css">
   <script src="/assets/javascripts/vendor/custom.modernizr.js"></script>
-  <script src="/js/app/angular.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="/assets/javascripts/vendor/angular.min.js"></script>
+  <script src="/assets/javascripts/vendor/angular-animate.min.js"></script>
   <script src="/js/app/app.js"></script>
   <script src="/js/app/controllers/controllers.js"></script>
   <script src="/js/app/services/services.js"></script>
