@@ -55,7 +55,7 @@ class QueryController extends BaseController {
     parse_str($query_string, $params);
     $mbid = isset($params["mbid"]) ? $params["mbid"] : null;
     $page = isset($params["p"]) ? $params["p"] : 1;
-    $limit = isset($params["limit"]) ? $params["limit"] : Config::get('constants.ALBUMS_PER_PAGE_ARTIST');
+    $limit = isset($params["limit"]) ? $params["limit"] : Config::get('constants.ALBUMS_BY_ARTIST_LIMIT');
     if(isset($mbid) && isset($page)) {
       return $this->searcher->getReleasesByArtistId($mbid, $page, $limit);
     }

@@ -137,14 +137,13 @@ class SearchHelper {
    * @param $limit (OPTIONAL) results per page
    * @return array_of_artists_releases_by_page
    */
-  public function getReleasesByArtistId($mbid, $page = 1, $limit = 6)
+  public function getReleasesByArtistId($mbid, $page = 1, $limit = 100)
   {
     if(SearchHelper::isValidMBID($mbid)) {
       $album_args = array(
         "mbid" => $mbid,
         "autocorrect" => 1,
-        "limit" => $limit,
-        "page" => $page
+        "limit" => $limit
       );
       $releases = $this->lastfm->artist_getTopAlbums($album_args);
       $releases_arr = [];
@@ -154,14 +153,17 @@ class SearchHelper {
         "page_total" =>  issetOrNull($releases->topalbums->{"@attr"}->totalPages, 1)
       );
       foreach($releases->topalbums->album as $album) {
-        $releases_arr[] = array(
-          "mbid" =>         issetOrNull($album->mbid),
-          "name" =>         issetOrNull($album->name),
-          "image_small" =>  issetOrNull($album->image[1]->{"#text"}),
-          "image_medium" => issetOrNull($album->image[2]->{"#text"}),
-          "image_large" =>  issetOrNull($album->image[3]->{"#text"})
-        );
+        if(isset($album->mbid) && !empty($album->mbid)) {
+          $releases_arr[] = array(
+            "mbid" =>         issetOrNull($album->mbid),
+            "name" =>         issetOrNull($album->name),
+            "image_small" =>  issetOrNull($album->image[1]->{"#text"}),
+            "image_medium" => issetOrNull($album->image[2]->{"#text"}),
+            "image_large" =>  issetOrNull($album->image[3]->{"#text"})
+          );
+        }
       }
+      $pagination_arr["results_total"] = sizeof($releases_arr);
       $output_arr = array_merge($pagination_arr, array("releases" => $releases_arr));
       return $output_arr;
     }

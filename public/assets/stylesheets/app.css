@@ -7304,19 +7304,25 @@ a.th {
   max-width: 800px;
 }
 
-/* line 13, ../sass/app.scss */
+/* line 15, ../sass/app.scss */
 .artist-summary {
   padding-top: 0.625em;
   padding-bottom: 0.625em;
 }
 
-/* line 18, ../sass/app.scss */
+/* line 20, ../sass/app.scss */
 .callout-artist-releases {
   text-align: center;
-  padding: 1.25em;
+  padding: 0;
 }
 
-/* line 23, ../sass/app.scss */
+/* line 25, ../sass/app.scss */
+.artist-releases-container {
+  padding-right: 1.25em;
+  padding-left: 1.25em;
+}
+
+/* line 30, ../sass/app.scss */
 .alert-error {
   border-style: solid;
   border-width: 1px;
@@ -7331,7 +7337,7 @@ a.th {
   color: white;
 }
 
-/* line 27, ../sass/app.scss */
+/* line 34, ../sass/app.scss */
 .album-box.ng-enter {
   -webkit-transition: 0.5s linear all;
   -moz-transition: 0.5s linear all;
@@ -7339,56 +7345,80 @@ a.th {
   transition: 0.5s linear all;
 }
 
-/* line 34, ../sass/app.scss */
+/* line 41, ../sass/app.scss */
 .album-box.ng-enter,
 .album-box.ng-leave.ng-leave-active {
   opacity: 0;
 }
 
-/* line 38, ../sass/app.scss */
+/* line 45, ../sass/app.scss */
 .album-box.ng-leave,
 .album-box.ng-enter.ng-enter-active {
   opacity: 1;
 }
 
-/* line 42, ../sass/app.scss */
+/* line 49, ../sass/app.scss */
 .album-image {
   width: 7.8125em;
   height: 7.8125em;
 }
-/* line 46, ../sass/app.scss */
+/* line 53, ../sass/app.scss */
 .album-image img {
   width: 100%;
   height: auto;
 }
 
-/* line 52, ../sass/app.scss */
+/* line 59, ../sass/app.scss */
 .album-panel {
-  height: 21.25em;
+  height: 21.875em;
 }
 
-/* line 57, ../sass/app.scss */
+/* line 63, ../sass/app.scss */
+.album-panel-inner {
+  padding-top: 0.625em;
+  padding-bottom: 0.625em;
+}
+
+/* line 69, ../sass/app.scss */
 .page-previous,
 .page-next {
   height: 100%;
-  background: linear-gradient(to right, #0000ff, #ffffff);
 }
-/* line 60, ../sass/app.scss */
-.page-previous:hover,
-.page-next:hover {
-  color: #333;
-}
-/* line 63, ../sass/app.scss */
+/* line 71, ../sass/app.scss */
 .page-previous .inner, .page-previous .inner-right,
 .page-next .inner,
 .page-next .inner-right {
-  margin-top: 9.65909em;
+  margin-top: 9.94318em;
 }
-/* line 68, ../sass/app.scss */
+/* line 76, ../sass/app.scss */
 .page-previous .inner-right img,
 .page-next .inner-right img {
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -o-transform: rotate(180deg);
   transform: rotate(180deg);
+}
+
+/* line 85, ../sass/app.scss */
+.page-previous:hover {
+  background-color: #ebe9f9;
+  *zoom: 1;
+  filter: progid:DXImageTransform.Microsoft.gradient(gradientType=1, startColorstr='#FFEBE9F9', endColorstr='#FFF2F2F2');
+  background-image: -webkit-gradient(linear, 0% 50%, 100% 50%, color-stop(0%, #ebe9f9), color-stop(0%, #a3a3a3), color-stop(44%, #c1c1c1), color-stop(100%, #f2f2f2));
+  background-image: -webkit-linear-gradient(left, #ebe9f9 0%, #a3a3a3 0%, #c1c1c1 44%, #f2f2f2 100%);
+  background-image: -moz-linear-gradient(left, #ebe9f9 0%, #a3a3a3 0%, #c1c1c1 44%, #f2f2f2 100%);
+  background-image: -o-linear-gradient(left, #ebe9f9 0%, #a3a3a3 0%, #c1c1c1 44%, #f2f2f2 100%);
+  background-image: linear-gradient(left, #ebe9f9 0%, #a3a3a3 0%, #c1c1c1 44%, #f2f2f2 100%);
+}
+
+/* line 90, ../sass/app.scss */
+.page-next:hover {
+  background-color: #ebe9f9;
+  *zoom: 1;
+  filter: progid:DXImageTransform.Microsoft.gradient(gradientType=1, startColorstr='#FFEBE9F9', endColorstr='#FFF2F2F2');
+  background-image: -webkit-gradient(linear, 0% 50%, 100% 50%, color-stop(0%, #f2f2f2), color-stop(56%, #c1c1c1), color-stop(100%, #a3a3a3), color-stop(100%, #ebe9f9));
+  background-image: -webkit-linear-gradient(left, #f2f2f2 0%, #c1c1c1 56%, #a3a3a3 100%, #ebe9f9 100%);
+  background-image: -moz-linear-gradient(left, #f2f2f2 0%, #c1c1c1 56%, #a3a3a3 100%, #ebe9f9 100%);
+  background-image: -o-linear-gradient(left, #f2f2f2 0%, #c1c1c1 56%, #a3a3a3 100%, #ebe9f9 100%);
+  background-image: linear-gradient(left, #f2f2f2 0%, #c1c1c1 56%, #a3a3a3 100%, #ebe9f9 100%);
 }

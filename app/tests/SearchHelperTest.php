@@ -56,15 +56,6 @@ class SearchHelperTest extends TestCase {
     $releases_by_artist_id_result = $this->searchHelper->getReleasesByArtistId($artist_id);
 
     $this->assertNotEmpty($releases_by_artist_id_result);
-
-    //Test Pagination
-    $page = 2;
-    $limit = 6;
-    $releases_by_artist_id_pagination_result = $this->searchHelper->getReleasesByArtistId($artist_id, $page, $limit);
-
-    $this->assertNotEmpty($releases_by_artist_id_pagination_result);
-    $this->assertEquals($releases_by_artist_id_pagination_result["page_number"], $page);
-    $this->assertEquals($releases_by_artist_id_pagination_result["page_limit"], $limit);
   }
 
   public function testIsValidMBID()
@@ -76,5 +67,13 @@ class SearchHelperTest extends TestCase {
     $this->assertEquals($this->searchHelper->isValidMBID($valid_mbid), 1); //TRUE
     $this->assertEquals($this->searchHelper->isValidMBID($valid_mbid2), 1); //TRUE
     $this->assertEquals($this->searchHelper->isValidMBID($invalid_mbid), 0); //FALSE
+  }
+
+  public function testGetReleaseById()
+  {
+    $release_id = "05b5d7bc-35f6-470a-9597-bb35020f39d0"; //This Heat - This Heat
+    //$release_by_id_result = $this->searchHelper->getReleaseById($release_id);
+
+    //$this->assertNotEmpty($release_by_id_result);
   }
 }

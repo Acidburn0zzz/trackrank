@@ -19,7 +19,7 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row artist-releases-container">
     <div class="panel callout-artist-releases">
       <div class="row album-panel" ng-controller="AlbumPageController">
         <a href="#" ng-click="paginate(-1)">
@@ -27,11 +27,11 @@
             <div class="inner"><img src="/img/leftarrow.png"></div>
           </div>
         </a>
-        <div class="large-10 columns album-panel">
+        <div class="large-10 columns album-panel-inner">
           <ul class="small-block-grid-3">
-            <li class="album-box" ng-repeat="data in release_data.releases" ng-cloak>
-              <a href="/releases/@{{ data.mbid }}" class="th"><div class="album-image"><img src="@{{ data.image_medium }}" style="album-image" /></div></a><br />
-              <a href="/releases/@{{ data.mbid }}">@{{ data.name }}</a>
+            <li class="album-box" ng-repeat="data in page_data" ng-cloak>
+              <a href="/release/@{{ data.mbid }}" target="_self" class="th"><div class="album-image"><img src="@{{ data.image_medium }}" style="album-image" /></div></a><br />
+              <a href="/release/@{{ data.mbid }}" target="_self">@{{ data.name }}</a>
             </li>
           </ul>
         </div>

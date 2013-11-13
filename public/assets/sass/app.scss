@@ -7,8 +7,10 @@
 // Comment out this import if you are customizing you imports below
 @import "foundation";
 
+@import "compass";
+
 $warning-color: #FF0000;
-$album-panel-height: em-calc(340);
+$album-panel-height: em-calc(350);
 
 .artist-summary {
   padding-top: em-calc(10);
@@ -17,7 +19,12 @@ $album-panel-height: em-calc(340);
 
 .callout-artist-releases {
   text-align: center;
-  padding: em-calc(20);
+  padding: 0;
+}
+
+.artist-releases-container {
+  padding-right: em-calc(20);
+  padding-left: em-calc(20);
 }
 
 .alert-error {
@@ -53,13 +60,14 @@ $album-panel-height: em-calc(340);
   height: $album-panel-height;
 }
 
+.album-panel-inner {
+  padding-top: em-calc(10);
+  padding-bottom: em-calc(10);
+}
+
 .page-previous,
 .page-next {
   height: 100%;
-  background: linear-gradient(to right, blue, white);
-  &:hover {
-    color: #333;
-  }
   .inner {
     margin-top: ($album-panel-height / 2.2);
   }
@@ -72,6 +80,17 @@ $album-panel-height: em-calc(340);
       transform:rotate(180deg);
     }
   }
+}
+
+.page-previous:hover {
+  background-color: rgb(235,233,249); // Old browsers
+  @include filter-gradient(#ebe9f9, #f2f2f2, horizontal); // IE6-9
+  @include background-image(linear-gradient(left, rgba(235,233,249,1) 0%,rgba(163,163,163,1) 0%,rgba(193,193,193,1) 44%,rgba(242,242,242,1) 100%));
+}
+.page-next:hover {
+  background-color: rgb(235,233,249); // Old browsers
+  @include filter-gradient(#ebe9f9, #f2f2f2, horizontal); // IE6-9
+  @include background-image(linear-gradient(left, rgba(242,242,242,1) 0%,rgba(193,193,193,1) 56%, rgba(163,163,163,1) 100%, rgba(235,233,249,1) 100%));
 }
 
 

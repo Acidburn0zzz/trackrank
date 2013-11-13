@@ -24,6 +24,10 @@ Route::get('query/artist_releases/{query_string}', 'QueryController@getReleasesB
 Route::get('/artist/{artist_id}/{page_number?}', "ArtistController@show")
   ->where(array("artist_id" => "[0-9A-Za-z\-]+", "page_number" => "\d+"));
 
+//SITE: release page
+Route::get('/release/{release_id}', "ReleaseController@show")
+  ->where(array("release_id" => "[0-9A-Za-z\-]+"));
+
 //SITE: homepage
 Route::get('/', array('as' => 'home', function()
 {
