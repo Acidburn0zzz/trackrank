@@ -8,14 +8,14 @@ class ReleaseController extends BaseController {
   }
 
 	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
+	 * Generate the release page
+	 * @param  $mbid Release MusicBrainz id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show($mbid)
 	{
-        return View::make('release');
+    $release = $this->searcher->getReleaseById($mbid);
+    return View::make('release', array('release' => $release));
 	}
 
 }

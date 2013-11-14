@@ -67,7 +67,8 @@ app.controller("AlbumPageController", function($scope, $location, artistService,
 
 });
 
-app.controller("RatingController", function($scope) {
+app.controller("ReleaseController", function($scope) {
+  var mbid = $location.path().split("/")[2]; //path = /release/MBID
 
 });
 

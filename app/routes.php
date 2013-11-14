@@ -20,6 +20,10 @@ Route::get('/query/artist/{query_string}', 'QueryController@getArtistById');
 //API: get artists releases by MBID with pagination
 Route::get('query/artist_releases/{query_string}', 'QueryController@getReleasesByArtistId');
 
+//API: get release by MBID
+Route::get('query/release/{mbid}', 'QueryController@getReleaseById')
+  ->where(array('mbid' => '[0-9A-Za-z\-]+'));
+
 //SITE: artist page
 Route::get('/artist/{artist_id}/{page_number?}', "ArtistController@show")
   ->where(array("artist_id" => "[0-9A-Za-z\-]+", "page_number" => "\d+"));

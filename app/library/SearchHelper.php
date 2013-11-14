@@ -169,6 +169,27 @@ class SearchHelper {
     }
     return null;
   }
+
+  public function getReleaseById($mbid)
+  {
+    if(SearchHelper::isValidMBID($mbid)) {
+      $release_args = array(
+        "mbid" => $mbid
+      );
+      $release = $this->lastfm->album_getInfo($release_args);
+      $release_arr = array(
+        "artist" => issetOrNull($release->album->artist),
+        "album" =>  issetOrNull($release->album->name),
+        "date" =>   SearchHelper::prettyDate(issetOrNull($release->album->releasedate)),
+        "image_small" => issetOrNull($release->album->image[1]->{"#text"}),
+        "image_medium" => issetOrNull($release->album->image[2]->{"#text"}),
+        "image_large" => issetOrNull($release->album->image[3]->{"#text"})
+      );
+      $release_arr["tracks"] = $release->album->tracks;
+      return $release_arr;
+    }
+    return null;
+  }
 }
 
 ?>

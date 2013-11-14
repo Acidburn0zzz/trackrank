@@ -19,3 +19,9 @@ app.service("paginateService", function($http, artistService) {
     return data.slice(page * limit, (page * limit) + limit);
   };
 });
+
+app.service("releaseService", function($http) {
+  this.getReleaseData = function(mbid) {
+    return $http.get('/query/release');
+  }
+});

@@ -62,6 +62,12 @@ class QueryController extends BaseController {
     return Response::make("ERROR: Invalid MBID", 500);
   }
 
+  //TODO: comments
+  public function getReleaseById($mbid)
+  {
+    return $this->searcher->getReleaseById($mbid);
+  }
+
 	/**
 	 * Show the form for creating a new resource.
 	 *
@@ -91,39 +97,6 @@ class QueryController extends BaseController {
 	public function show($id)
 	{
         return View::make('queries.show');
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-        return View::make('queries.edit');
-	}
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
 	}
 
 }
