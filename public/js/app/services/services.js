@@ -60,9 +60,10 @@ app.directive("ratingsGrid", function(){
         }
       }
 
-      function resetRow(row) {
-        fillRowGradient(_rows[row].start, canvas.startY, _rows[row].rating);
-        fillRow(_rows[row].start, canvas.startY - (_rows[row].rating * grid_size), (10 - _rows[row].rating));
+      function resetRow(row, fillY) {
+        fill = Math.min(fillY, _rows[row].rating);
+        fillRowGradient(_rows[row].start, canvas.startY, fill);
+        fillRow(_rows[row].start, canvas.startY - (_rows[row].rating * grid_size), (10 - fill));
       }
 
       function fillRow(startX, startY, countY, fill) {
@@ -120,8 +121,8 @@ app.directive("ratingsGrid", function(){
         row = getRow(x, y);
         fillY = Math.floor((canvas.height - y) / grid_size);
 
-        if(lastFillY > fillY) fillRow((row * grid_size) + offset.x, (canvas.height - offset.y), 10, "#FFF");
-        if(row > 0) fillRowGradient((row * grid_size) + offset.x, (canvas.height - offset.y), fillY);
+        if(lastFillY !== fillY) resetRow(row);//fillRow((row * grid_size) + offset.x, (canvas.height - offset.y), 10, "#FFF");
+        if(row > 0) resetRow(row);//fillRowGradient((row * grid_size) + offset.x, (canvas.height - offset.y), fillY);
         if(row !== lastRow) {
           resetRow(lastRow);
           //fillRow((lastRow * grid_size) + offset.x, (canvas.height - offset.y), 10, "#FFF");
