@@ -49,7 +49,7 @@ app.directive("ratingsGrid", function(){
       }
 
       function fillRowGradient(startX, startY, countY) {
-        console.log("FILL");
+        console.log("GRADIENT: " + startX + ", " + startY + ", " + countY);
         var y = startY;
         if(countY > 10) countY = 10;
         for(var i = 1; i <= countY; i++) {
@@ -61,12 +61,14 @@ app.directive("ratingsGrid", function(){
       }
 
       function resetRow(row, fillY) {
-        fill = Math.min(fillY, _rows[row].rating);
+        var fill = (fillY > 0) ? fillY : _rows[row].rating;
+        console.log("FILL: ", fill);
         fillRowGradient(_rows[row].start, canvas.startY, fill);
-        fillRow(_rows[row].start, canvas.startY - (_rows[row].rating * grid_size), (10 - fill));
+        fillRow(_rows[row].start, canvas.startY - (fill * grid_size), (10 - fill));
       }
 
       function fillRow(startX, startY, countY, fill) {
+        console.log("FILLROW: " + startX + ", " + startY + ", " + countY);
         var y = startY;
         ctx.fillStyle = "#FFF";
         for(var i = 1; i <= countY; i++) {
@@ -121,14 +123,14 @@ app.directive("ratingsGrid", function(){
         row = getRow(x, y);
         fillY = Math.floor((canvas.height - y) / grid_size);
 
-        if(lastFillY !== fillY) resetRow(row);//fillRow((row * grid_size) + offset.x, (canvas.height - offset.y), 10, "#FFF");
-        if(row > 0) resetRow(row);//fillRowGradient((row * grid_size) + offset.x, (canvas.height - offset.y), fillY);
+        if(lastFillY !== fillY) resetRow(row, fillY);//fillRow((row * grid_size) + offset.x, (canvas.height - offset.y), 10, "#FFF");
+        if(row > 0) resetRow(row, fillY);//fillRowGradient((row * grid_size) + offset.x, (canvas.height - offset.y), fillY);
         if(row !== lastRow) {
           resetRow(lastRow);
           //fillRow((lastRow * grid_size) + offset.x, (canvas.height - offset.y), 10, "#FFF");
         }
         console.log("FILLY: " + fillY + " LASTFILLY: " + lastFillY);
-       // console.log("ROW: " + row + " LASTROW: " + lastRow);
+        console.log("ROW: " + row + " LASTROW: " + lastRow);
        // console.log("COORDS: " + event.offsetX + " , " + event.offsetY);
       });
       element.bind('mouseup', function(event){
