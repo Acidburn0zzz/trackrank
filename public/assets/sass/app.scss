@@ -93,7 +93,10 @@ $album-panel-height: em-calc(350);
   @include background-image(linear-gradient(left, rgba(242,242,242,1) 0%,rgba(193,193,193,1) 56%, rgba(163,163,163,1) 100%, rgba(235,233,249,1) 100%));
 }
 
-
+.ratings-row,
+.tracklist-row {
+  margin-top: em-calc(10);
+}
 
 // Import specific parts of Foundation by commenting the import "foundation"
 // and uncommenting what you want below. You must uncomment the following if customizing

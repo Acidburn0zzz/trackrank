@@ -7422,3 +7422,9 @@ a.th {
   background-image: -o-linear-gradient(left, #f2f2f2 0%, #c1c1c1 56%, #a3a3a3 100%, #ebe9f9 100%);
   background-image: linear-gradient(left, #f2f2f2 0%, #c1c1c1 56%, #a3a3a3 100%, #ebe9f9 100%);
 }
+
+/* line 97, ../sass/app.scss */
+.ratings-row,
+.tracklist-row {
+  margin-top: 0.625em;
+}

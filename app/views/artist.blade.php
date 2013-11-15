@@ -44,7 +44,7 @@
 
     </div>
   </div>
-  <a href="/">Back to search</a>
+  <a href="/" target="_self">Back to search</a>
 </div>
 @else
 <div class="alert-error">No artist found!</div>
