@@ -32,8 +32,11 @@ Route::get('/artist/{artist_id}/{page_number?}', "ArtistController@show")
 Route::get('/release/{release_id}', "ReleaseController@show")
   ->where(array("release_id" => "[0-9A-Za-z\-]+"));
 
+//SITE: post to homepage
+Route::post('/', 'QueryController@postSearch');
+
 //SITE: homepage
 Route::get('/', array('as' => 'home', function()
 {
-  return View::make('home');
+  return View::make('home')->with(array("artist" => null, "album" => null));
 }));

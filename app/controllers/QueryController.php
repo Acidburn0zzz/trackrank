@@ -27,6 +27,18 @@ class QueryController extends BaseController {
   }
 
   /**
+   * Get a post search request from the top nav bar and route the result to the view
+   * @return View
+   */
+  public function postSearch()
+  {
+    $artist = Input::get("artist");
+    $album = Input::get("album");
+
+    return View::make('home')->with(array("artist" => $artist, "album" => $album));
+  }
+
+  /**
    * Query for an artist's info and releases by a musicbrainz id
    * @param mbid = artist MBID
    * @param p = (OPTIONAL) page number
@@ -68,35 +80,5 @@ class QueryController extends BaseController {
     return $this->searcher->getReleaseById($mbid);
   }
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-        return View::make('queries.create');
-	}
-
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
-	}
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-        return View::make('queries.show');
-	}
 
 }

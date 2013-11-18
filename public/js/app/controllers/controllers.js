@@ -1,5 +1,7 @@
 //SEARCH
-app.controller("QueryController", function($scope, $location, artistService) {
+app.controller("QueryController", function($scope, $location, $window, artistService) {
+  //$scope.query = $window.init;
+  console.log("WINDOW: ", $window.init);
   $scope.query = {artist: "", album: ""};
   $scope.output = {};
 
@@ -9,6 +11,8 @@ app.controller("QueryController", function($scope, $location, artistService) {
 
   $scope.search = function(query) {
     console.log("SCOPE:", $scope);
+    if(query.album == "null") query.album = "";
+    if(query.artist == "null") query.artist = "";
     var res = {type: "", data: ""};
     var param = "";
     if(query.artist.length > 0 && query.album.length > 0) {
@@ -34,6 +38,11 @@ app.controller("QueryController", function($scope, $location, artistService) {
     }
     $scope.output = res;
   };
+
+  if($window.init.artist.length > 0 || $window.init.album.length > 0) {
+    console.log("not null");
+    $scope.search($window.init);
+  }
 });
 
 //ALBUM DISPLAY AND PAGINATION

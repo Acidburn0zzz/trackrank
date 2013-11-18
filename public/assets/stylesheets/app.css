@@ -7428,3 +7428,9 @@ a.th {
 .tracklist-row {
   margin-top: 0.625em;
 }
+
+/* line 105, ../sass/app.scss */
+.nav-button {
+  text-align: center;
+  margin-bottom: 0.3125em;
+}

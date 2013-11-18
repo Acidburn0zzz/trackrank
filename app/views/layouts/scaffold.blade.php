@@ -15,64 +15,77 @@
   <script src="/js/app/services/services.js"></script>
 </head>
 <body>
-
 <!-- Navigation -->
-
-
   <nav class="top-bar">
     <ul class="title-area">
-      <li class="name"><h1><a href="#">RankTracks</a></h1></li>
-      <li class="toggle-topbar menu-item"><a href="#">asdf</a></li>
+      <li class="name"><h1><a href="/" target="_self">RankTracks</a></h1></li>
+      <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
     </ul>
 
     <section class="top-bar-section">
+      <ul class="left">
+        <li class="has-form">
+          <form novalidate action="/" method="POST">
+            <div class="row">
+              <div class="columns small-6 nav-input">
+                <input type="text" placeholder="Artist..." name="artist">
+              </div>
+              <div class="columns small-6 nav-input">
+                <input type="text" placeholder="Album..." name="album">
+              </div>
+            </div>
+        </li>
+        <li class="has-button nav-button">
+          <button class="button" ng-click="search(query)">Search</button>
+        </li>
+          </form>
+      </ul>
+
       <ul class="right">
-        <li><a href="#">Test Item</a></li>
-        <li><a href="#">Test2</a></li>
+        <li class="nav-button">
+          <a href="#" data-reveal-id="loginModal">Login</a>
+        </li>
       </ul>
     </section>
   </nav>
 <!-- End Navigation -->
 
 
-  <form novalidate>
-    <div class="row collapse">
-      <div class="small-5 columns">
-        <input type="text" placeholder="Artist..." ng-model="query.artist">
-      </div>
-      <div class="small-5 columns">
-        <input type="text" placeholder="Album..." ng-model="query.album">
-      </div>
-      <div class="small-2 columns">
-        <button class="button" ng-click="search(query)">Search</button>
-      </div>
-    </div>
-  </form>
-
-  <div class="row">
+<!-- Main Content -->
+  <div class="row ratings-row">
     <div class="large-12">
-      <h1>RankTracks</h1>
-      <a href="#" data-reveal-id="loginModal">Login</a>
       <div class="row">
         @yield('content')
       </div>
       <div id="view" ng-view></div>
     </div>
   </div>
+<!-- End Main Content -->
 
+<!-- Login Modal -->
   <div id="loginModal" class="reveal-modal">
-    <h2>Test</h2>
+    <h2>Login</h2>
+    <form action="">
+      <div class="row">
+        <input type="text" id="username" placeholder="Username">
+        <input type="text" id="password" placeholder="Password">
+        <button class="button" ng-click="search(query)">Login</button>
+      </div>
+    </form>
     <a class="close-reveal-modal">&#215;</a>
   </div>
+<!-- End Login Modal -->
+
+<!-- Scripts -->
   <script>
     document.write('<script src=/assets/javascripts/vendor/'
       + ('__proto__' in {} ? 'zepto' : 'jquery')
       + '.js><\/script>');
   </script>
   <script src="//cdn.jsdelivr.net/foundation/4.3.2/js/foundation.min.js"></script>
-  <script src="assets/javascripts/foundation/foundation.reveal.js"></script>
   <script>
     $(document).foundation();
   </script>
+<!-- End Scripts -->
 </body>
 </html>

@@ -2,7 +2,13 @@
 
 @section('content')
 <div class="large-8 large-offset-2" ng-controller="QueryController">
-  <form novalidate>
+  <script>
+    window.init = { album: {{ '"' . $album . '"' }}, artist: {{ '"' . $artist . '"' }} };
+  </script>
+  <input type="hidden" name="album" value="{{ $album }}">
+  <input type="hidden" name="artist" value="{{ $artist }}">
+
+<!--   <form novalidate>
     <div class="row">
       <div class="large-5 columns">
         <input type="text" placeholder="Artist..." ng-model="query.artist">
@@ -14,7 +20,7 @@
         <button class="button postfix" ng-click="search(query)">Search</button>
       </div>
     </div>
-  </form>
+  </form> -->
     <div ng-show="isEmpty(output)" ng-cloak>Search something...</div>
     <div class="panel" ng-repeat="data in output.data" ng-cloak>
       <div class="row">
