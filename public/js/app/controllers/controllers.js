@@ -78,7 +78,9 @@ app.controller("AlbumPageController", function($scope, $location, artistService,
 
 //RELEASE PAGE
 app.controller("ReleaseController", function($scope, $location, releaseService) {
-  var mbid = $location.path().split("/")[2]; //path = /release/MBID
+  console.log($location.path());
+  $scope.artist = $location.path().split("/")[2];
+  var mbid = $location.path().split("/")[4]; //path = /artist/ARTIST_NAME/release/MBID
   $scope.loaded = false;
   releaseService.getReleaseData(mbid).then(function(result) {
     $scope.release_data = result.data;

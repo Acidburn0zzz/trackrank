@@ -32,7 +32,7 @@ Route::get('/artist/{artist_id}/{page_number?}', "ArtistController@show")
 Route::get('/release/{release_id}', 'ReleaseController@show')
   ->where(array("release_id" => "[0-9A-Za-z\-]+"));
 
-Route::get('/artist/{artist_name}/release/{release_id}', 'ReleaseController@show')
+Route::get('/artist/{artist_name}/release/{release_id}', 'ReleaseController@showmbid')
   ->where(array("artist_name" => "[0-9A-Za-z\-]+", "release_id" => "[0-9A-Za-z\-]+"));
 
 //SITE: user page

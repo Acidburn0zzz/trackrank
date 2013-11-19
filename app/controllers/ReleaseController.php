@@ -18,4 +18,10 @@ class ReleaseController extends BaseController {
     return View::make('release', array('release' => $release));
 	}
 
+  public function showmbid($artist, $mbid)
+  {
+    $release = $this->searcher->getReleaseByMBID($artist, $mbid);
+    return View::make('release', array('release' => $release));
+  }
+
 }
