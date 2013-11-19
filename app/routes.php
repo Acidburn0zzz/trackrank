@@ -29,8 +29,13 @@ Route::get('/artist/{artist_id}/{page_number?}', "ArtistController@show")
   ->where(array("artist_id" => "[0-9A-Za-z\-]+", "page_number" => "\d+"));
 
 //SITE: release page
-Route::get('/release/{release_id}', "ReleaseController@show")
+Route::get('/release/{release_id}', 'ReleaseController@show')
   ->where(array("release_id" => "[0-9A-Za-z\-]+"));
+
+//SITE: user page
+Route::get('/users/{username}', 'UsersController@getUser');
+Route::get('/logout', 'UsersController@destroy');
+Route::controller('users', 'UsersController');
 
 //SITE: post to homepage
 Route::post('/', 'QueryController@postSearch');
