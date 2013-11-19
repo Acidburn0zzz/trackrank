@@ -72,10 +72,11 @@ class SearchHelperTest extends TestCase {
   public function testGetReleaseById()
   {
     $release_id = "67d450b3-9f16-43e7-a819-019e6e54e074"; //Melvins - Bullhead
-    $release_by_id_result = $this->searchHelper->getReleaseById($release_id);
+    $release_by_id_result = $this->searchHelper->getReleaseByMBID("Melvins", $release_id);
 
     $this->assertNotEmpty($release_by_id_result);
     $this->assertEquals($release_by_id_result["artist"], "Melvins");
     $this->assertEquals($release_by_id_result["album"], "Bullhead");
+    $this->assertEquals($release_by_id_result["tracks"][0]["title"], "Boris");
   }
 }

@@ -43,7 +43,11 @@
 
       <ul class="right">
         <li class="nav-button">
-          <a href="#" data-reveal-id="loginModal">Login</a>
+          @if(Auth::check())
+            <a href="/profile/{{ Auth::user()->username }}" target="_self">{{ Auth::user()->username }}</a>
+          @else
+            <a href="#" data-reveal-id="loginModal">Login / Register</a>
+          @endif
         </li>
       </ul>
     </section>
@@ -55,6 +59,12 @@
   <div class="row ratings-row">
     <div class="large-12">
       <div class="row">
+        @if(Session::get('message'))
+          <div data-alert class="alert-box">
+            {{ Session::get('message') }}
+            <a href="#" class="close">&times;</a>
+          </div>
+        @endif
         @yield('content')
       </div>
       <div id="view" ng-view></div>
@@ -64,14 +74,22 @@
 
 <!-- Login Modal -->
   <div id="loginModal" class="reveal-modal">
-    <h2>Login</h2>
-    <form action="">
-      <div class="row">
-        <input type="text" id="username" placeholder="Username">
-        <input type="text" id="password" placeholder="Password">
-        <button class="button" ng-click="search(query)">Login</button>
-      </div>
-    </form>
+    <div class="row">
+    <div class="section-container auto user-section" data-section>
+      <section class="active">
+        <p class="title" data-section-title><a href="#panel1">Login</a></p>
+        <div class="content" data-section-content>
+          @include('users.login_form')
+        </div>
+      </section>
+      <section>
+        <p class="title" data-section-title><a href="#panel2">Register</a></p>
+        <div class="content" data-section-content>
+          @include('users.register_form')
+        </div>
+      </section>
+    </div>
+    </div>
     <a class="close-reveal-modal">&#215;</a>
   </div>
 <!-- End Login Modal -->
@@ -85,6 +103,11 @@
   <script src="//cdn.jsdelivr.net/foundation/4.3.2/js/foundation.min.js"></script>
   <script>
     $(document).foundation();
+    var resize_window = function(e) {
+    $(window).trigger('resize');
+}
+
+$(document).foundation('reveal', {'opened' : resize_window});
   </script>
 <!-- End Scripts -->
 </body>

@@ -23,7 +23,8 @@ class SearchHelper {
   protected $lastfm;
 
   function __construct() {
-    $this->service = new \Discogs\Service(null, 20);
+    //$this->service = new \Discogs\Service(null, 20);
+    $this->brainz = new MusicBrainz(new Client(), null, null);
     $this->lastfm = new \Dandelionmood\LastFm\LastFm("a179ca871e578d4a0c51d406e14fbc54", "40c5c9863176992f7688afdc3c0abf35");
   }
 
@@ -137,6 +138,7 @@ class SearchHelper {
    * @param $limit (OPTIONAL) results per page
    * @return array_of_artists_releases_by_page
    */
+  //TODO: Cache images, save by release MBID
   public function getReleasesByArtistId($mbid, $page = 1, $limit = 100)
   {
     if(SearchHelper::isValidMBID($mbid)) {
@@ -166,6 +168,23 @@ class SearchHelper {
       $pagination_arr["results_total"] = sizeof($releases_arr);
       $output_arr = array_merge($pagination_arr, array("releases" => $releases_arr));
       return $output_arr;
+    }
+    return null;
+  }
+
+  public function getReleaseByMBID($artist, $mbid)
+  {
+    if(!empty($artist) && SearchHelper::isValidMBID($mbid)) {
+      $inc = array("recordings");
+      $release = $this->brainz->lookup("release", $mbid, $inc);
+      $release_arr = array(
+        "artist" => $artist,
+        "album" => issetOrNull($release["title"]),
+        "mbid" => $mbid,
+        "date" => issetOrNull($release["data"]),
+        "tracks" => issetOrNull($release["media"][0]["tracks"])
+      );
+      return $release_arr;
     }
     return null;
   }

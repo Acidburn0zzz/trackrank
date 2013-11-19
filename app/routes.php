@@ -29,8 +29,28 @@ Route::get('/artist/{artist_id}/{page_number?}', "ArtistController@show")
   ->where(array("artist_id" => "[0-9A-Za-z\-]+", "page_number" => "\d+"));
 
 //SITE: release page
-Route::get('/release/{release_id}', "ReleaseController@show")
+Route::get('/release/{release_id}', 'ReleaseController@show')
   ->where(array("release_id" => "[0-9A-Za-z\-]+"));
+
+Route::get('/artist/{artist_name}/release/{release_id}', 'ReleaseController@show')
+  ->where(array("artist_name" => "[0-9A-Za-z\-]+", "release_id" => "[0-9A-Za-z\-]+"));
+
+//SITE: user page
+Route::get('/profile/{username}', 'UsersController@getUser');
+
+//AUTHENTICATED
+Route::group(array('before' => 'auth'), function() {
+  //SITE: logout
+  Route::get('/logout', 'UsersController@destroy');
+});
+
+//GUEST
+Route::group(array('before' => 'guest'), function() {
+  //SITE: login
+  Route::get('/login', 'UsersController@getLogin');
+});
+
+Route::controller('users', 'UsersController');
 
 //SITE: post to homepage
 Route::post('/', 'QueryController@postSearch');

@@ -7434,3 +7434,8 @@ a.th {
   text-align: center;
   margin-bottom: 0.3125em;
 }
+
+/* line 110, ../sass/app.scss */
+.user-section {
+  width: 100px;
+}
