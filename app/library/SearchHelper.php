@@ -33,7 +33,8 @@ class SearchHelper {
    * @param $date lastfm date
    * @return prettified date
    */
-  public static function prettyDate($date) {
+  public static function prettyDate($date)
+  {
     return trim(str_replace(", 00:00", "", $date));
   }
 
@@ -111,22 +112,27 @@ class SearchHelper {
   public function getArtistById($mbid)
   {
     if(SearchHelper::isValidMBID($mbid)) {
-      $artist_args = array(
-        "mbid" => $mbid,
-        "autocorrect" => 1
-      );
-      $artist = $this->lastfm->artist_getInfo($artist_args);
-      return array(
-        "artist" =>       issetOrNull($artist->artist->name),
-        "summary" =>      issetOrNull($artist->artist->bio->summary),
-        "year" =>         issetOrNull($artist->artist->bio->yearformed),
-        "place" =>        issetOrNull($artist->artist->bio->placeformed),
-        "mbid" =>         issetOrNull($artist->artist->mbid),
-        "image_small" =>  issetOrNull($artist->artist->image[1]->{"#text"}),
-        "image_medium" => issetOrNull($artist->artist->image[2]->{"#text"}),
-        "image_large" =>  issetOrNull($artist->artist->image[3]->{"#text"}),
-        "releases" =>     issetOrNull($releases_arr)
-      );
+      $artist = Artist::where('mbid', '=', $mbid)->first();
+      if($artist->isEmpty()) {
+        $artist_args = array(
+          "mbid" => $mbid,
+          "autocorrect" => 1
+        );
+        $artist = $this->lastfm->artist_getInfo($artist_args);
+        return array(
+          "artist" =>       issetOrNull($artist->artist->name),
+          "summary" =>      issetOrNull($artist->artist->bio->summary),
+          "year" =>         issetOrNull($artist->artist->bio->yearformed),
+          "place" =>        issetOrNull($artist->artist->bio->placeformed),
+          "mbid" =>         issetOrNull($artist->artist->mbid),
+          "image_small" =>  issetOrNull($artist->artist->image[1]->{"#text"}),
+          "image_medium" => issetOrNull($artist->artist->image[2]->{"#text"}),
+          "image_large" =>  issetOrNull($artist->artist->image[3]->{"#text"}),
+          "releases" =>     issetOrNull($releases_arr)
+        );
+      } else {
+        return $artist;
+      }
     }
     return null;
   }
@@ -172,13 +178,13 @@ class SearchHelper {
     return null;
   }
 
-  public function getReleaseByMBID($artist, $mbid)
+  //MusicBrainz data
+  public function getReleaseByMBID($mbid)
   {
-    if(!empty($artist) && SearchHelper::isValidMBID($mbid)) {
+    if(SearchHelper::isValidMBID($mbid)) {
       $inc = array("recordings");
       $release = $this->brainz->lookup("release", $mbid, $inc);
       $release_arr = array(
-        "artist" => $artist,
         "album" => issetOrNull($release["title"]),
         "mbid" => $mbid,
         "date" => issetOrNull($release["data"]),
@@ -189,6 +195,7 @@ class SearchHelper {
     return null;
   }
 
+  //LastFM data
   public function getReleaseById($mbid)
   {
     if(SearchHelper::isValidMBID($mbid)) {

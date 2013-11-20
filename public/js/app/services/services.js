@@ -22,7 +22,7 @@ app.service("paginateService", function($http, artistService) {
 
 app.service("releaseService", function($http) {
   this.getReleaseData = function(mbid) {
-    return $http.get('/query/release/' + mbid);
+    return $http.get('/query/release_mb/' + mbid);
   };
 });
 
@@ -40,7 +40,7 @@ app.directive("ratingsGrid", function(){
       var canvas = {width: canvas_element.width, height: canvas_element.height, startY: (canvas_element.height - offset.y)};
       var _rs = {};
       var _rows = {};
-      var tracklist = scope.release_data.tracks.track;
+      var tracklist = scope.release_data.tracks;
       var id = "";
 
       //Adds 0 infront of 1 digit number
@@ -99,7 +99,7 @@ app.directive("ratingsGrid", function(){
 
       console.log(_rows);
       element.bind('mousedown', function(event) {
-        console.log("SIZE: ", scope.release_data.tracks.track.length);
+        console.log("SIZE: ", scope.release_data.tracks.length);
         _rows[row].rating = Math.floor((canvas.height - y) / grid_size);
         resetRow(row);
         console.log(_rows);

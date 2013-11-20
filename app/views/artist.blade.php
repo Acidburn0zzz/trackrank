@@ -30,8 +30,8 @@
         <div class="large-10 columns album-panel-inner">
           <ul class="small-block-grid-3">
             <li class="album-box" ng-repeat="data in page_data" ng-cloak>
-              <a href="/release/@{{ data.mbid }}" target="_self" class="th"><div class="album-image"><img src="@{{ data.image_medium }}" style="album-image" /></div></a><br />
-              <a href="/release/@{{ data.mbid }}" target="_self">@{{ data.name }}</a>
+              <a href="/artist/{{ $artist["artist"]}}/release/@{{ data.mbid }}" target="_self" class="th"><div class="album-image"><img src="@{{ data.image_medium }}" style="album-image" /></div></a><br />
+              <a href="/artist/{{ $artist["artist"]}}/release/@{{ data.mbid }}" target="_self">@{{ data.name }}</a>
             </li>
           </ul>
         </div>

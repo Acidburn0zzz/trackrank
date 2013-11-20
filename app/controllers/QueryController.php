@@ -75,9 +75,9 @@ class QueryController extends BaseController {
   }
 
   //TODO: comments
-  public function getReleaseById($mbid)
+  public function getReleaseByMBID($mbid)
   {
-    return $this->searcher->getReleaseById($mbid);
+    return $this->searcher->getReleaseByMBID($mbid);
   }
 
 

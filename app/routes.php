@@ -20,9 +20,11 @@ Route::get('/query/artist/{query_string}', 'QueryController@getArtistById');
 //API: get artists releases by MBID with pagination
 Route::get('query/artist_releases/{query_string}', 'QueryController@getReleasesByArtistId');
 
-//API: get release by MBID
-Route::get('query/release/{mbid}', 'QueryController@getReleaseById')
-  ->where(array('mbid' => '[0-9A-Za-z\-]+'));
+//API: get release data from LastFM by MBID
+Route::get('query/release/{mbid}', 'QueryController@getReleaseById');
+
+//API: get release data from MusicBrainz by MBID
+Route::get('/query/release_mb/{mbid}', 'QueryController@getReleaseByMBID');
 
 //SITE: artist page
 Route::get('/artist/{artist_id}/{page_number?}', "ArtistController@show")
