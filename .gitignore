@@ -1,6 +1,7 @@
 /bootstrap/compiled.php
 /vendor
 /app/config/database.php
+/end-to-end-with-angularjs
 composer.phar
 composer.lock
 .DS_Store
