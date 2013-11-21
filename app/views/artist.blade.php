@@ -5,10 +5,10 @@
 @if(isset($artist))
 <div class="panel">
   <div class="row">
-    <div class="large-2 columns"><img src='{{ $artist["image_large"] }}' /></div>
+    <div class="large-2 columns"><img src='{{ $artist["img_large"] }}' /></div>
 
     <div class="large-10 columns">
-      <h2 class="header">{{ $artist["artist"] }}</h2>
+      <h2 class="header">{{ $artist["name"]}}</h2>
       <h5 class="header">From {{ $artist["place"] }}, formed in {{ $artist["year"] }}</h5>
     </div>
   </div>
@@ -30,8 +30,8 @@
         <div class="large-10 columns album-panel-inner">
           <ul class="small-block-grid-3">
             <li class="album-box" ng-repeat="data in page_data" ng-cloak>
-              <a href="/artist/{{ $artist["artist"]}}/release/@{{ data.mbid }}" target="_self" class="th"><div class="album-image"><img src="@{{ data.image_medium }}" style="album-image" /></div></a><br />
-              <a href="/artist/{{ $artist["artist"]}}/release/@{{ data.mbid }}" target="_self">@{{ data.name }}</a>
+              <a href="/artist/{{ $artist["name"]}}/release/@{{ data.mbid }}" target="_self" class="th"><div class="album-image"><img src="@{{ data.image_medium }}" style="album-image" /></div></a><br />
+              <a href="/artist/{{ $artist["name"]}}/release/@{{ data.mbid }}" target="_self">@{{ data.name }}</a>
             </li>
           </ul>
         </div>

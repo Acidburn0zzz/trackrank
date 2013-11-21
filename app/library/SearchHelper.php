@@ -1,5 +1,4 @@
 <?php
-namespace Helpers;
 
 use MusicBrainz\MusicBrainz;
 use MusicBrainz\Filters\RecordingFilter;
@@ -113,7 +112,7 @@ class SearchHelper {
   {
     if(SearchHelper::isValidMBID($mbid)) {
       $artist = Artist::where('mbid', '=', $mbid)->first();
-      if($artist->isEmpty()) {
+      if(!$artist->exists()) {
         $artist_args = array(
           "mbid" => $mbid,
           "autocorrect" => 1
@@ -131,7 +130,8 @@ class SearchHelper {
           "releases" =>     issetOrNull($releases_arr)
         );
       } else {
-        return $artist;
+        //dd($artist->toArray());
+        return $artist->toArray();
       }
     }
     return null;

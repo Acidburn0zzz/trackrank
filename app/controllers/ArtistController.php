@@ -4,7 +4,7 @@ class ArtistController extends BaseController {
 
   protected $searcher;
   function __construct() {
-    $this->searcher = new \Helpers\SearchHelper();
+    $this->searcher = new SearchHelper();
   }
 
 	/**
@@ -15,7 +15,6 @@ class ArtistController extends BaseController {
 	 */
 	public function show($id, $page = 1)
 	{
-    var_dump($page);
     $artist_info = $this->searcher->getArtistById($id, $page);
     return View::make('artist', array('artist' => $artist_info));
 	}
