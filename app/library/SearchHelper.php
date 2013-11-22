@@ -111,27 +111,28 @@ class SearchHelper {
   public function getArtistById($mbid)
   {
     if(SearchHelper::isValidMBID($mbid)) {
-      $artist = Artist::where('mbid', '=', $mbid)->first();
-      if(!$artist->exists()) {
+      $artist_query = Artist::where('mbid', '=', $mbid)->get();
+      if($artist_query->isEmpty()) {
         $artist_args = array(
           "mbid" => $mbid,
           "autocorrect" => 1
         );
         $artist = $this->lastfm->artist_getInfo($artist_args);
-        return array(
-          "artist" =>       issetOrNull($artist->artist->name),
+        $artist_arr = array(
+          "name" =>         issetOrNull($artist->artist->name),
           "summary" =>      issetOrNull($artist->artist->bio->summary),
           "year" =>         issetOrNull($artist->artist->bio->yearformed),
           "place" =>        issetOrNull($artist->artist->bio->placeformed),
           "mbid" =>         issetOrNull($artist->artist->mbid),
-          "image_small" =>  issetOrNull($artist->artist->image[1]->{"#text"}),
-          "image_medium" => issetOrNull($artist->artist->image[2]->{"#text"}),
-          "image_large" =>  issetOrNull($artist->artist->image[3]->{"#text"}),
-          "releases" =>     issetOrNull($releases_arr)
+          "img_small" =>    issetOrNull($artist->artist->image[1]->{"#text"}),
+          "img_medium" =>   issetOrNull($artist->artist->image[2]->{"#text"}),
+          "img_large" =>    issetOrNull($artist->artist->image[3]->{"#text"})
         );
+        CacheHelper::cacheArtistData($artist_arr);
+        return $artist_arr;
       } else {
-        //dd($artist->toArray());
-        return $artist->toArray();
+        //dd($artist_query->toArray()[0]);
+        return $artist_query->toArray()[0];
       }
     }
     return null;

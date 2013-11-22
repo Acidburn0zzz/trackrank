@@ -82,3 +82,13 @@ App::down(function()
 */
 
 require app_path().'/filters.php';
+
+Artist::creating(function($artist)
+{
+  if ( ! $artist->isValid()) return false;
+});
+
+Artist::updating(function($artist)
+{
+  if ( ! $artist->isValid()) return false;
+});
