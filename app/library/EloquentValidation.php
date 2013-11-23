@@ -25,5 +25,10 @@ class EloquentValidation extends Eloquent
     {
         return $this->errors;
     }
+
+    public function sanitize($data)
+    {
+
+    }
 }
 ?>

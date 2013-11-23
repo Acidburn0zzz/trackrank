@@ -4,7 +4,7 @@ class ReleaseController extends BaseController {
 
   protected $searcher;
   function __construct() {
-    $this->searcher = new \Helpers\SearchHelper();
+    $this->searcher = new SearchHelper();
   }
 
 	/**

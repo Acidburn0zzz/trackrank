@@ -12,7 +12,7 @@ use Guzzle\Http\Client;
  * @param $nullValue (OPTIONAL) what the value will be set to if property not found, default null
  * @return object_property if exists, empty string otherwise
  */
-function issetOrNull(&$obj, $nullValue = null) {
+function issetOrNull(&$obj, $nullValue = "") {
   return isset($obj) ? $obj : $nullValue;
 }
 
@@ -134,6 +134,11 @@ class SearchHelper {
         //dd($artist_query->toArray()[0]);
         return $artist_query->toArray()[0];
       }
+    } else {
+      $artist = Artist::where('name', '=', $mbid)->get();
+      if(!$artist->isEmpty()) {
+        return $artist->toArray()[0];
+      }
     }
     return null;
   }
@@ -188,7 +193,7 @@ class SearchHelper {
       $release_arr = array(
         "album" => issetOrNull($release["title"]),
         "mbid" => $mbid,
-        "date" => issetOrNull($release["data"]),
+        "date" => issetOrNull($release["date"]),
         "tracks" => issetOrNull($release["media"][0]["tracks"])
       );
       return $release_arr;
