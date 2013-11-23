@@ -1,16 +1,10 @@
 <?php
 
-class Artist extends Eloquent {
+class Artist extends EloquentValidation {
 	protected $guarded = array();
 
-	public static $rules = array(
+	protected $rules = array(
     "mbid" => "required|unique",
     "name" => "required",
   );
-
-  public function isValid()
-  {
-    dd(static::$rules);
-    return Validator::make($this->toArray(), static::$rules)->passes();
-  }
 }
