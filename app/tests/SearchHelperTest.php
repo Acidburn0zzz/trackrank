@@ -4,7 +4,7 @@ class SearchHelperTest extends TestCase {
 
   protected $searchHelper;
   public function setUp() {
-    $this->searchHelper = new \Helpers\SearchHelper();
+    $this->searchHelper = new SearchHelper();
   }
 
   public function testSearchFunction()
@@ -27,18 +27,6 @@ class SearchHelperTest extends TestCase {
     $this->assertNotEmpty($artist_query_mixed_case_result);
   }
 
-  public function testIssetOrNull()
-  {
-    $null_checks = (object) array(
-      "artist" => "melvins",
-      "year" => "",
-    );
-
-    $this->assertNotEmpty(\Helpers\issetOrNull($null_checks->artist));
-    $this->assertEmpty(\Helpers\issetOrNull($null_checks->year));
-    $this->assertEmpty(\Helpers\issetOrNull($null_checks->invalidProperty));
-  }
-
   public function testGetArtistById()
   {
     $artist_query = "artist=melvins";
@@ -50,12 +38,29 @@ class SearchHelperTest extends TestCase {
     $this->assertEquals($artist_id, $get_artist_id["mbid"]);
   }
 
+  public function testGetArtistByName()
+  {
+    $name = "melvins";
+
+    $artist_by_name_result = $this->searchHelper->getArtistById($name);
+    $this->assertNotNull($artist_by_name_result);
+    $this->assertEquals($artist_by_name_result["name"], "Melvins");
+  }
+
   public function testGetReleasesByArtistId()
   {
     $artist_id = "9ccfbc94-a4f4-42f7-b6f5-d903ab77cccb"; //Melvins
     $releases_by_artist_id_result = $this->searchHelper->getReleasesByArtistId($artist_id);
 
     $this->assertNotEmpty($releases_by_artist_id_result);
+  }
+
+  public function testGetReleaseByArtistMBID()
+  {
+    $artist_id = "9ccfbc94-a4f4-42f7-b6f5-d903ab77cccb"; //Melvins
+    $releases_by_artist_mbid_result = $this->searchHelper->getReleasesByArtistMBID($artist_id);
+
+    $this->assertNotEmpty($releases_by_artist_mbid_result);
   }
 
   public function testIsValidMBID()
@@ -72,10 +77,9 @@ class SearchHelperTest extends TestCase {
   public function testGetReleaseById()
   {
     $release_id = "67d450b3-9f16-43e7-a819-019e6e54e074"; //Melvins - Bullhead
-    $release_by_id_result = $this->searchHelper->getReleaseByMBID("Melvins", $release_id);
+    $release_by_id_result = $this->searchHelper->getReleaseByMBID($release_id);
 
     $this->assertNotEmpty($release_by_id_result);
-    $this->assertEquals($release_by_id_result["artist"], "Melvins");
     $this->assertEquals($release_by_id_result["album"], "Bullhead");
     $this->assertEquals($release_by_id_result["tracks"][0]["title"], "Boris");
   }

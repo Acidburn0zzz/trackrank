@@ -184,6 +184,11 @@ class SearchHelper {
     return null;
   }
 
+  public function getReleasesByArtistMBID($mbid)
+  {
+
+  }
+
   //MusicBrainz data
   public function getReleaseByMBID($mbid)
   {
