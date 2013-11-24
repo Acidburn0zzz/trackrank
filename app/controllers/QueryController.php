@@ -74,7 +74,19 @@ class QueryController extends BaseController {
     return Response::make("ERROR: Invalid MBID", 500);
   }
 
-  //TODO: comments
+  /**
+   *
+   * @return
+   */
+  public function getReleasesByArtistMBID($mbid)
+  {
+    return $this->searcher->getReleasesByArtistMBID($mbid);
+  }
+
+  /**
+   * Gets release data from MusicBrainz by MBID
+   * @return
+   */
   public function getReleaseByMBID($mbid)
   {
     return $this->searcher->getReleaseByMBID($mbid);

@@ -10,7 +10,6 @@ class CacheHelper {
 	public static function cacheArtistData($data)
 	{
     $artist = new Artist();
-    //dd($data);
     if($artist->validate($data)) {
       $artist->fill($data);
       $artist->save();

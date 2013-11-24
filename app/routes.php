@@ -17,8 +17,11 @@ Route::get('/query/{query_string}', 'QueryController@getSearch');
 //API: get artist by MBID
 Route::get('/query/artist/{query_string}', 'QueryController@getArtistById');
 
-//API: get artists releases by MBID with pagination
+//API: get artists releases by MBID from LastFM
 Route::get('query/artist_releases/{query_string}', 'QueryController@getReleasesByArtistId');
+
+//API: get artists releases by MBID from MusicBrainz
+Route::get('query/artist_releases_mb/{query_string}', 'QueryController@getReleasesByArtistMBID');
 
 //API: get release data from LastFM by MBID
 Route::get('query/release/{mbid}', 'QueryController@getReleaseById');

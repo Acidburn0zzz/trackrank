@@ -16,6 +16,13 @@ function issetOrNull(&$obj, $nullValue = "") {
   return isset($obj) ? $obj : $nullValue;
 }
 
+/**
+ * Helper function used for sorting an array descending by a "date" field
+ */
+function sortByDate($a, $b) {
+  return strcmp($a["date"], $b["date"]);
+}
+
 class SearchHelper {
   protected $service;
   protected $brainz;
@@ -184,12 +191,39 @@ class SearchHelper {
     return null;
   }
 
+/**
+   * Get a list of releases by an artist MBID from MusicBrainz
+   * @return
+   */
   public function getReleasesByArtistMBID($mbid)
   {
-
+    if(SearchHelper::isValidMBID($mbid)) {
+      $inc = array("release-groups");
+      $releases = $this->brainz->lookup("artist", $mbid, $inc);
+      $release_data = [];
+      $releases_arr = array(
+        "artist" =>      issetOrNull($releases["name"]),
+        "artist_mbid" => issetOrNull($releases["id"])
+      );
+      foreach($releases["release-groups"] as $release) {
+        $release_data[] = array(
+          "title" => issetOrNull($release["title"]),
+          "mbid" =>  issetOrNull($release["id"]),
+          "date" =>  issetOrNull($release["first-release-date"]),
+          "type" =>  issetOrNull($release["primary-type"])
+        );
+      }
+      usort($release_data, "sortByDate");
+      $releases_arr["releases"] = $release_data;
+      return $releases_arr;
+    }
+    return null;
   }
 
-  //MusicBrainz data
+  /**
+   * MusicBrainz release data
+   * @return
+   */
   public function getReleaseByMBID($mbid)
   {
     if(SearchHelper::isValidMBID($mbid)) {
@@ -206,7 +240,10 @@ class SearchHelper {
     return null;
   }
 
-  //LastFM data
+  /**
+   * LastFM release data
+   * @return
+   */
   public function getReleaseById($mbid)
   {
     if(SearchHelper::isValidMBID($mbid)) {
