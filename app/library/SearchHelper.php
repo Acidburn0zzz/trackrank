@@ -27,9 +27,11 @@ class SearchHelper {
   protected $service;
   protected $brainz;
   protected $lastfm;
+  protected $cache;
 
   function __construct() {
     //$this->service = new \Discogs\Service(null, 20);
+    $this->cache = new CacheHelper();
     $this->brainz = new MusicBrainz(new Client(), null, null);
     $this->lastfm = new \Dandelionmood\LastFm\LastFm("a179ca871e578d4a0c51d406e14fbc54", "40c5c9863176992f7688afdc3c0abf35");
   }
@@ -215,6 +217,7 @@ class SearchHelper {
       }
       usort($release_data, "sortByDate");
       $releases_arr["releases"] = $release_data;
+      $this->cache->cacheAlbumImages('test');
       return $releases_arr;
     }
     return null;
