@@ -1,19 +1,10 @@
 <?php
 
-use ApaiIO\ApaiIO;
-use ApaiIO\Operations\Search;
-use ApaiIO\Configuration\GenericConfiguration;
-
 class CacheHelper {
-  protected $conf;
+  protected $lastfm;
 
   function __construct() {
-    $this->conf = new GenericConfiguration();
-    $this->conf
-      ->setCountry('com')
-      ->setAccessKey('AKIAJLC6ICEFO4YUGZ6Q')
-      ->setSecretKey('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')
-      ->setAssociateTag('track00a-20');
+    $this->lastfm = new \Dandelionmood\LastFm\LastFm("a179ca871e578d4a0c51d406e14fbc54", "40c5c9863176992f7688afdc3c0abf35");
   }
   /**
    * Store an artist in the database
@@ -29,18 +20,22 @@ class CacheHelper {
     }
 	}
 
-  public function cacheAlbumImages($albums)
+  public function cacheAlbumImages($albums, $artist)
   {
-    $search = new Search();
-    $search->setCategory('Music');
-    $search->setKeywords('Melvins Houdini');
-    $search->setPage(3);
-    $search->setResponseGroup(array('Large', 'Small'));
-    $apaiIo = new ApaiIO($this->conf);
-    $response = $apaiIo->runOperation($search);
-
-    var_dump($response);
-
+    //dd(getcwd());
+    foreach($albums as $album)
+    {
+      $album_args = array(
+        "artist" => $artist,
+        "album" => $album["title"]
+      );
+      $response = $this->lastfm->album_getInfo($album_args);
+      $path_medium = getcwd() . "/img/album/175x175/" . $response->album->mbid . ".jpg";
+      $path_large = getcwd() . "/img/album/300x300/" . $response->album->mbid . ".jpg";
+      if(!file_exists($path_medium) && !empty($response->album->image[2]->{"#text"})) file_put_contents($path_medium, file_get_contents($response->album->image[2]->{"#text"}));
+      if(!file_exists($path_large) && !empty($response->album->image[3]->{"#text"})) file_put_contents($path_large, file_get_contents($response->album->image[3]->{"#text"}));
+      //var_dump($response);
+    }
   }
 }
 ?>

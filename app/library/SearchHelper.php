@@ -208,16 +208,20 @@ class SearchHelper {
         "artist_mbid" => issetOrNull($releases["id"])
       );
       foreach($releases["release-groups"] as $release) {
-        $release_data[] = array(
-          "title" => issetOrNull($release["title"]),
-          "mbid" =>  issetOrNull($release["id"]),
-          "date" =>  issetOrNull($release["first-release-date"]),
-          "type" =>  issetOrNull($release["primary-type"])
-        );
+        if(isset($release["primary-type"])) {
+          if(strcasecmp($release["primary-type"], "album") == 0 || strcasecmp($release["primary-type"], "ep") == 0) {
+            $release_data[] = array(
+              "title" => issetOrNull($release["title"]),
+              "mbid" =>  issetOrNull($release["id"]),
+              "date" =>  issetOrNull($release["first-release-date"]),
+              "type" =>  issetOrNull($release["primary-type"])
+            );
+          }
+        }
       }
       usort($release_data, "sortByDate");
       $releases_arr["releases"] = $release_data;
-      $this->cache->cacheAlbumImages('test');
+      $this->cache->cacheAlbumImages($releases_arr["releases"], $releases_arr["artist"]);
       return $releases_arr;
     }
     return null;
