@@ -2,6 +2,7 @@
 /vendor
 /app/config/database.php
 /end-to-end-with-angularjs
+/public/img
 composer.phar
 composer.lock
 .DS_Store
