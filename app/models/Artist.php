@@ -5,6 +5,6 @@ class Artist extends EloquentValidation {
 
 	protected $rules = array(
     "mbid" => "required|unique:artists",
-    "name" => "required",
+    "name" => "required"
   );
 }

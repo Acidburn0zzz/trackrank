@@ -56,6 +56,7 @@ app.controller("AlbumPageController", function($scope, $location, artistService,
   $scope.release_data = {};
   $scope.page_data = {};
   paginateService.getAlbumPage(mbid).then(function(result) {
+    console.log("RELEASE: ", result);
     $scope.release_data = result.data;
     console.log("RD: ", $scope.release_data);
     $scope.page_data = paginateService.getPageData($scope.page, $scope.page_size, $scope.release_data.releases);

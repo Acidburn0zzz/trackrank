@@ -214,14 +214,15 @@ class SearchHelper {
               "title" => issetOrNull($release["title"]),
               "mbid" =>  issetOrNull($release["id"]),
               "date" =>  issetOrNull($release["first-release-date"]),
-              "type" =>  issetOrNull($release["primary-type"])
+              "type" =>  issetOrNull($release["primary-type"]),
+              "img" =>   $this->cache->getImage(issetOrNull($release["id"]), $releases_arr["artist"], issetOrNull($release["title"]))
             );
           }
         }
       }
       usort($release_data, "sortByDate");
       $releases_arr["releases"] = $release_data;
-      $this->cache->cacheAlbumImages($releases_arr["releases"], $releases_arr["artist"]);
+      //$this->cache->cacheAlbumImages($releases_arr["releases"], $releases_arr["artist"]);
       return $releases_arr;
     }
     return null;

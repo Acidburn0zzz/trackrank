@@ -37,5 +37,22 @@ class CacheHelper {
       //var_dump($response);
     }
   }
+
+  public function getImage($mbid, $artist, $album)
+  {
+    $album_query = Album::where('mbid', '=', $mbid)->get();
+    if($album_query->isEmpty()) {
+      $album_args = array("artist" => $artist, "album" => $album);
+      try {
+        $response = $this->lastfm->album_getInfo($album_args);
+        return $response->album->image[2]->{"#text"};
+      } catch(Exception $e) {
+        //echo "miss";
+      }
+      //return $response->album->image[2]->{"#text"};
+    } else {
+      return $album_query->img_small;
+    }
+  }
 }
 ?>

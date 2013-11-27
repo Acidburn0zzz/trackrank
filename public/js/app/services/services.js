@@ -6,13 +6,13 @@ app.service("artistService", function($http) {
     return $http.get('/query/artist/' + params);
   };
   this.getArtistReleasesById = function(params) {
-    return $http.get('/query/artist_releases/' + params);
+    return $http.get('/query/artist_releases_mb/' + params);
   };
 });
 
 app.service("paginateService", function($http, artistService) {
   this.getAlbumPage = function(mbid) {
-    var params = "mbid=" + mbid;
+    var params = mbid;
     return artistService.getArtistReleasesById(params);
   };
   this.getPageData = function(page, limit, data) {
