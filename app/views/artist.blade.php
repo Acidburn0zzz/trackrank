@@ -5,7 +5,7 @@
 @if(isset($artist))
 <div class="panel">
   <div class="row">
-    <div class="large-2 columns"><img src='{{ $artist["img_large"] }}' /></div>
+    <div class="large-2 columns"><img src='{{ $artist["images"]["large"] }}' /></div>
 
     <div class="large-10 columns">
       <h2 class="header">{{ $artist["name"]}}</h2>

@@ -41,16 +41,12 @@ class QueryController extends BaseController {
   /**
    * Query for an artist's info and releases by a musicbrainz id
    * @param mbid = artist MBID
-   * @param p = (OPTIONAL) page number
    * @return JSON object of artist info and releases
    */
-  public function getArtistById($query_string)
+  public function getArtistById($mbid)
   {
-    parse_str($query_string, $params);
-    $mbid = isset($params["mbid"]) ? $params["mbid"] : null;
-    $page = isset($params["p"]) ? $params["p"] : 1;
-    if(isset($mbid) && isset($page)) {
-      return $this->searcher->getArtistById($mbid, $page);
+    if(isset($mbid)) {
+      return $this->searcher->getArtistById($mbid);
     }
     return Response::make("ERROR: Invalid MBID", 500);
   }
@@ -90,6 +86,11 @@ class QueryController extends BaseController {
   public function getReleaseByMBID($mbid)
   {
     return $this->searcher->getReleaseByMBID($mbid);
+  }
+
+  public function getReleaseById($mbid)
+  {
+    return $this->searcher->getReleaseById($mbid);
   }
 
 

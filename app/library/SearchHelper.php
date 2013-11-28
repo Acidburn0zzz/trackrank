@@ -27,10 +27,12 @@ class SearchHelper {
   protected $service;
   protected $brainz;
   protected $lastfm;
+  protected $lasfm_helper;
   protected $cache;
 
   function __construct() {
     //$this->service = new \Discogs\Service(null, 20);
+    $this->lastfm_helper = new \LastfmHelper\LastfmHelper();
     $this->cache = new CacheHelper();
     $this->brainz = new MusicBrainz(new Client(), null, null);
     $this->lastfm = new \Dandelionmood\LastFm\LastFm("a179ca871e578d4a0c51d406e14fbc54", "40c5c9863176992f7688afdc3c0abf35");
@@ -119,37 +121,40 @@ class SearchHelper {
    */
   public function getArtistById($mbid)
   {
-    if(SearchHelper::isValidMBID($mbid)) {
-      $artist_query = Artist::where('mbid', '=', $mbid)->get();
-      if($artist_query->isEmpty()) {
-        $artist_args = array(
-          "mbid" => $mbid,
-          "autocorrect" => 1
-        );
-        $artist = $this->lastfm->artist_getInfo($artist_args);
-        $artist_arr = array(
-          "name" =>         issetOrNull($artist->artist->name),
-          "summary" =>      issetOrNull($artist->artist->bio->summary),
-          "year" =>         issetOrNull($artist->artist->bio->yearformed),
-          "place" =>        issetOrNull($artist->artist->bio->placeformed),
-          "mbid" =>         issetOrNull($artist->artist->mbid),
-          "img_small" =>    issetOrNull($artist->artist->image[1]->{"#text"}),
-          "img_medium" =>   issetOrNull($artist->artist->image[2]->{"#text"}),
-          "img_large" =>    issetOrNull($artist->artist->image[3]->{"#text"})
-        );
-        CacheHelper::cacheArtistData($artist_arr);
-        return $artist_arr;
-      } else {
-        //dd($artist_query->toArray()[0]);
-        return $artist_query->toArray()[0];
-      }
-    } else {
-      $artist = Artist::where('name', '=', $mbid)->get();
-      if(!$artist->isEmpty()) {
-        return $artist->toArray()[0];
-      }
-    }
-    return null;
+    $artist = $this->lastfm_helper->artistGetInfo(array("mbid" => $mbid));
+    return $artist->toArray();
+    dd($artist);
+    // if(SearchHelper::isValidMBID($mbid)) {
+    //   $artist_query = Artist::where('mbid', '=', $mbid)->get();
+    //   if($artist_query->isEmpty()) {
+    //     $artist_args = array(
+    //       "mbid" => $mbid,
+    //       "autocorrect" => 1
+    //     );
+    //     $artist = $this->lastfm->artist_getInfo($artist_args);
+    //     $artist_arr = array(
+    //       "name" =>         issetOrNull($artist->artist->name),
+    //       "summary" =>      issetOrNull($artist->artist->bio->summary),
+    //       "year" =>         issetOrNull($artist->artist->bio->yearformed),
+    //       "place" =>        issetOrNull($artist->artist->bio->placeformed),
+    //       "mbid" =>         issetOrNull($artist->artist->mbid),
+    //       "img_small" =>    issetOrNull($artist->artist->image[1]->{"#text"}),
+    //       "img_medium" =>   issetOrNull($artist->artist->image[2]->{"#text"}),
+    //       "img_large" =>    issetOrNull($artist->artist->image[3]->{"#text"})
+    //     );
+    //     CacheHelper::cacheArtistData($artist_arr);
+    //     return $artist_arr;
+    //   } else {
+    //     //dd($artist_query->toArray()[0]);
+    //     return $artist_query->toArray()[0];
+    //   }
+    // } else {
+    //   $artist = Artist::where('name', '=', $mbid)->get();
+    //   if(!$artist->isEmpty()) {
+    //     return $artist->toArray()[0];
+    //   }
+    // }
+    // return null;
   }
 
   /**
@@ -258,17 +263,8 @@ class SearchHelper {
       $release_args = array(
         "mbid" => $mbid
       );
-      $release = $this->lastfm->album_getInfo($release_args);
-      $release_arr = array(
-        "artist" => issetOrNull($release->album->artist),
-        "album" =>  issetOrNull($release->album->name),
-        "date" =>   SearchHelper::prettyDate(issetOrNull($release->album->releasedate)),
-        "image_small" => issetOrNull($release->album->image[1]->{"#text"}),
-        "image_medium" => issetOrNull($release->album->image[2]->{"#text"}),
-        "image_large" => issetOrNull($release->album->image[3]->{"#text"})
-      );
-      $release_arr["tracks"] = $release->album->tracks;
-      return $release_arr;
+      $release = $this->lastfm_helper->albumGetInfo($release_args);
+      return($release->toArray());
     }
     return null;
   }
