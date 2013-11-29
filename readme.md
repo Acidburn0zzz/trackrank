@@ -1,3 +1,26 @@
+##ROUTES
+#API
+/query/{query} => GET query lastfm for an artist or album
+/artist/{MBID} => GET query musicbrainz for artist data
+/artist/{MBID}/images => GET query lastfm for artist images
+/album/{MBID} => GET query musicbrainz for album data
+/album/{MBID}/images => GET query lastfm for album images
+
+/login => POST login data
+/logout => GET logout session
+/user/{ID} => GET user page
+
+/album/{MBID}/ratings => query internal DB for ratings ?
+/album/{MBID}/ratings/new => POST new rating data
+
+#Angular frontend
+/ => homepage, search form
+/artist/{MBID} => artist page, flat list of albums
+/album/{MBID} => album page, rating widget
+/login => login form
+/user/{ID} => user page
+
+
 ## Laravel PHP Framework
 
 [![Latest Stable Version](https://poser.pugx.org/laravel/framework/version.png)](https://packagist.org/packages/laravel/framework) [![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.png)](https://packagist.org/packages/laravel/framework) [![Build Status](https://travis-ci.org/laravel/framework.png)](https://travis-ci.org/laravel/framework)
